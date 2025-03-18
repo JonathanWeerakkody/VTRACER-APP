@@ -1,48 +1,81 @@
-// pages/contact.js
 import Head from 'next/head';
-import Link from 'next/link';
+import { useState } from 'react';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 import ContactForm from '../components/ContactForm';
-import AdBlockerNotification from '../components/AdBlockerNotification';
+import TranslatedText from '../components/i18n/TranslatedText';
 
 export default function Contact() {
+  const [formStatus, setFormStatus] = useState({ status: 'idle', message: '' });
+  
+  const handleSubmit = async (formData) => {
+    setFormStatus({ status: 'submitting', message: '' });
+    
+    // Simulate form submission
+    setTimeout(() => {
+      setFormStatus({ 
+        status: 'success', 
+        message: 'Thank you for your message! We will get back to you soon.' 
+      });
+    }, 1500);
+  };
+  
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       <Head>
-        <title>Contact Us - VTracer</title>
-        <meta name="description" content="Contact the VTracer team for support or inquiries" />
+        <title>Contact Us - Vectorise.Me</title>
+        <meta name="description" content="Contact the Vectorise.Me team for support or feedback." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex justify-between items-center">
-            <Link href="/">
-              <span className="text-2xl font-bold text-gray-900 cursor-pointer">
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-purple-500">VTracer</span>
-              </span>
-            </Link>
-            <nav className="flex space-x-4">
-              <Link href="/" className="text-gray-500 hover:text-gray-900">Home</Link>
-              <Link href="/editor" className="text-gray-500 hover:text-gray-900">Editor</Link>
-              <Link href="/contact" className="text-indigo-600 font-medium">Contact</Link>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header />
       
-      <main className="max-w-3xl mx-auto px-4 py-12">
-        <ContactForm />
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="max-w-3xl mx-auto">
+          <h1 className="text-3xl font-extrabold text-gray-900 mb-8">
+            <TranslatedText id="contactTitle" defaultText="Contact Us" />
+          </h1>
+          
+          <div className="bg-white shadow overflow-hidden sm:rounded-lg mb-8">
+            <div className="px-4 py-5 sm:px-6">
+              <h2 className="text-lg font-medium text-gray-900">
+                <TranslatedText id="contactInfo" defaultText="Contact Information" />
+              </h2>
+              <p className="mt-1 max-w-2xl text-sm text-gray-500">
+                <TranslatedText id="contactInfoDesc" defaultText="Reach out to us with any questions or feedback." />
+              </p>
+            </div>
+            <div className="border-t border-gray-200 px-4 py-5 sm:p-6">
+              <dl className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+                <div className="sm:col-span-1">
+                  <dt className="text-sm font-medium text-gray-500">
+                    <TranslatedText id="email" defaultText="Email" />
+                  </dt>
+                  <dd className="mt-1 text-sm text-gray-900">jonkarystudio@gmail.com</dd>
+                </div>
+                <div className="sm:col-span-1">
+                  <dt className="text-sm font-medium text-gray-500">
+                    <TranslatedText id="phone" defaultText="Phone" />
+                  </dt>
+                  <dd className="mt-1 text-sm text-gray-900">2036872785</dd>
+                </div>
+                <div className="sm:col-span-2">
+                  <dt className="text-sm font-medium text-gray-500">
+                    <TranslatedText id="about" defaultText="About" />
+                  </dt>
+                  <dd className="mt-1 text-sm text-gray-900">
+                    <TranslatedText id="aboutDesc" defaultText="Vectorise.Me is a free online tool for converting raster images to SVG. Our service is completely free and supported by ad revenue." />
+                  </dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+          
+          <ContactForm onSubmit={handleSubmit} formStatus={formStatus} />
+        </div>
       </main>
       
-      <footer className="bg-white border-t border-gray-200 mt-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <p className="text-center text-sm text-gray-500">
-            &copy; {new Date().getFullYear()} VTracer. All rights reserved.
-          </p>
-        </div>
-      </footer>
-      
-      <AdBlockerNotification />
+      <Footer />
     </div>
   );
 }
