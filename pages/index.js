@@ -279,11 +279,11 @@ export default function Home() {
                     </svg>
                   </div>
                   <div className="ml-16">
-                    <h3 className="text-lg leading-6 font-medium text-gray-900">
-                      <TranslatedText id="instantConversion" defaultText="Instant Conversion" />
+                    <h3 className="text-lg font-medium text-gray-900">
+                      <TranslatedText id="feature1Title" defaultText="Instant Conversion" />
                     </h3>
                     <p className="mt-2 text-base text-gray-500">
-                      <TranslatedText id="instantConversionDesc" defaultText="Upload your image and get an SVG preview instantly. No waiting, no processing delays." />
+                      <TranslatedText id="feature1Description" defaultText="Upload your image and get an SVG preview instantly. No waiting, no processing delays." />
                     </p>
                   </div>
                 </div>
@@ -296,11 +296,11 @@ export default function Home() {
                     </svg>
                   </div>
                   <div className="ml-16">
-                    <h3 className="text-lg leading-6 font-medium text-gray-900">
-                      <TranslatedText id="realTimeCustomization" defaultText="Real-Time Customization" />
+                    <h3 className="text-lg font-medium text-gray-900">
+                      <TranslatedText id="feature2Title" defaultText="Real-Time Customization" />
                     </h3>
                     <p className="mt-2 text-base text-gray-500">
-                      <TranslatedText id="realTimeCustomizationDesc" defaultText="Adjust settings and see changes in real-time. Fine-tune your SVG to perfection." />
+                      <TranslatedText id="feature2Description" defaultText="Adjust settings and see changes in real-time. Fine-tune your SVG to perfection." />
                     </p>
                   </div>
                 </div>
@@ -313,11 +313,11 @@ export default function Home() {
                     </svg>
                   </div>
                   <div className="ml-16">
-                    <h3 className="text-lg leading-6 font-medium text-gray-900">
-                      <TranslatedText id="highQualityResults" defaultText="High-Quality Results" />
+                    <h3 className="text-lg font-medium text-gray-900">
+                      <TranslatedText id="feature3Title" defaultText="High-Quality Results" />
                     </h3>
                     <p className="mt-2 text-base text-gray-500">
-                      <TranslatedText id="highQualityResultsDesc" defaultText="Get clean, optimized SVGs that scale perfectly for any use case." />
+                      <TranslatedText id="feature3Description" defaultText="Get clean, optimized SVGs that scale perfectly for any use case." />
                     </p>
                   </div>
                 </div>
@@ -330,26 +330,26 @@ export default function Home() {
         <div className="bg-indigo-700">
           <div className="max-w-2xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
             <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
-              <span className="block">Start using Vectorise.Me today.</span>
+              <TranslatedText id="ctaTitle" defaultText="Start using Vectorise.Me today." />
             </h2>
             <p className="mt-4 text-lg leading-6 text-indigo-200">
               <TranslatedText id="ctaDescription" defaultText="Convert your images to SVG with our free online tool. No registration required." />
             </p>
           </div>
         </div>
+        
+        {/* Preview Modal */}
+        {previewModal.isOpen && (
+          <PreviewModal 
+            isOpen={previewModal.isOpen}
+            onClose={()  => setPreviewModal({ isOpen: false, image: null, title: '' })}
+            image={previewModal.image}
+            title={previewModal.title}
+          />
+        )}
       </main>
       
       <Footer />
-      
-      {/* Preview Modal */}
-      <PreviewModal 
-        isOpen={previewModal.isOpen}
-        onClose={() => setPreviewModal({ isOpen: false, image: null, title: '' })}
-        image={previewModal.image}
-        title={previewModal.title}
-      />
-      
-      <AdBlockerNotification />
     </div>
   );
 }
