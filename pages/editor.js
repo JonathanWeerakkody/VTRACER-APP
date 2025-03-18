@@ -1,339 +1,275 @@
-// pages/editor.js
-import { useState, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import Head from 'next/head';
-import Link from 'next/link';
-import UploadArea from '../components/UploadArea';
+import { useRouter } from 'next/router';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import TranslatedText from '../components/i18n/TranslatedText';
+import { useLanguage } from '../components/i18n/LanguageContext';
+import EnhancedUploadArea from '../components/EnhancedUploadArea';
 import FileList from '../components/FileList';
+import EnhancedSettingsPanel from '../components/EnhancedSettingsPanel';
 import BeforeAfterSlider from '../components/BeforeAfterSlider';
 import ConversionProgress from '../components/ConversionProgress';
-import PreviewModal from '../components/PreviewModal';
-import SettingsPanel from '../components/SettingsPanel';
 import DownloadPanel from '../components/DownloadPanel';
-import AdBlockerNotification from '../components/AdBlockerNotification';
+import PreviewModal from '../components/PreviewModal';
 
 export default function Editor() {
-  const [sessionId, setSessionId] = useState(null);
+  const router = useRouter();
+  const { language } = useLanguage();
+  
+  // State for file handling
   const [files, setFiles] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [conversionStatus, setConversionStatus] = useState({});
   const [previewModal, setPreviewModal] = useState({ isOpen: false, image: null, title: '' });
+  
+  // Settings state
   const [settings, setSettings] = useState({
     mode: 'shape',
-    curveAccuracy: 4,
-    colorQuantization: 6,
-    pathSimplification: 8,
-    strokeWidthDetection: false,
-    backgroundTransparency: false,
+    tolerance: 3,
+    colorQuantization: 8,
+    layerMode: 'stacked',
+    pathSimplification: 5,
+    curveAccuracy: 5,
+    strokeWidthDetection: true,
+    backgroundTransparency: false
   });
   
   // Handle file upload
-  const handleUpload = async (uploadedFiles) => {
-    if (uploadedFiles.length === 0) return;
-    if (files.length + uploadedFiles.length > 10) {
-      alert('You can only upload up to 10 images at once.');
-      return;
-    }
+  const handleUpload = useCallback((acceptedFiles) => {
+    setIsUploading(true);
     
-    try {
-      setIsUploading(true);
-      
-      // Simulate upload progress
-      const progressInterval = setInterval(() => {
-        setUploadProgress(prev => {
-          if (prev >= 95) {
-            clearInterval(progressInterval);
-            return 95;
-          }
-          return prev + 5;
-        });
-      }, 200);
-      
-      // Process each file
-      for (let i = 0; i < uploadedFiles.length; i++) {
-        const file = uploadedFiles[i];
-        
-        // Create object URL for preview
-        const preview = URL.createObjectURL(file);
-        
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 500));
-        
-        // Generate a random ID for demo purposes
-        const imageId = 'img_' + Math.random().toString(36).substr(2, 9);
-        const sessionId = 'session_' + Math.random().toString(36).substr(2, 9);
-        
-        // If this is the first file, set the session ID
-        if (!sessionId) {
-          setSessionId(sessionId);
-        }
-        
-        // Add file to list
-        const newFile = {
-          id: imageId,
-          name: file.name,
-          preview: preview,
-          original: preview,
-          svg: null,
-          fileSize: null,
-        };
-        
-        setFiles(prev => [...prev, newFile]);
-        
-        // Update conversion status
-        setConversionStatus(prev => ({
-          ...prev,
-          [imageId]: { status: 'converting', progress: 0 }
-        }));
-        
-        // If this is the first file, select it
-        if (files.length === 0 && i === 0) {
-          setSelectedFile(newFile);
-          
-          // Start conversion with progress simulation
-          simulateConversion(sessionId, imageId, settings);
-        }
-      }
-      
-      // Complete upload progress
-      clearInterval(progressInterval);
-      setUploadProgress(100);
-      
-      // Reset upload progress after a delay
-      setTimeout(() => {
-        setIsUploading(false);
-        setUploadProgress(0);
-      }, 500);
-      
-    } catch (error) {
-      console.error('Upload error:', error);
-      alert('Error uploading image. Please try again.');
-      setIsUploading(false);
-      setUploadProgress(0);
-    }
-  };
-  
-  // Simulate conversion progress
-  const simulateConversion = async (sessionId, imageId, settings) => {
-    // Start progress simulation
+    // Simulate upload progress
     let progress = 0;
-    const progressInterval = setInterval(() => {
-      progress += Math.floor(Math.random() * 10) + 1;
-      if (progress > 95) {
-        progress = 95;
-        clearInterval(progressInterval);
+    const interval = setInterval(() => {
+      progress += 5;
+      setUploadProgress(progress);
+      
+      if (progress >= 100) {
+        clearInterval(interval);
+        setIsUploading(false);
+        
+        // Process files
+        const newFiles = acceptedFiles.map(file => {
+          const id = `file-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+          return {
+            id,
+            name: file.name,
+            size: file.size,
+            type: file.type,
+            original: URL.createObjectURL(file),
+            preview: URL.createObjectURL(file),
+            fileSize: (file.size / 1024).toFixed(2) + ' KB'
+          };
+        });
+        
+        setFiles(prev => [...prev, ...newFiles]);
+        
+        // Select the first file if none is selected
+        if (!selectedFile) {
+          setSelectedFile(newFiles[0]);
+          simulateConversion(newFiles[0].id);
+        }
       }
-      
-      setConversionStatus(prev => ({
-        ...prev,
-        [imageId]: { status: 'converting', progress }
-      }));
-    }, 300);
-    
-    try {
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Complete progress
-      clearInterval(progressInterval);
-      
-      // Update conversion status
-      setConversionStatus(prev => ({
-        ...prev,
-        [imageId]: { status: 'completed', progress: 100 }
-      }));
-      
-      // For demo purposes, use the same image as SVG preview
-      // In a real implementation, this would be the actual SVG from the backend
-      const svgUrl = files.find(f => f.id === imageId)?.preview;
-      
-      // Update files list
-      setFiles(prev => prev.map(f => 
-        f.id === imageId 
-          ? {...f, svg: svgUrl, fileSize: 12345} // Mock file size
-          : f
-      ));
-      
-      // Update selected file if it's the one being processed
-      if (selectedFile?.id === imageId) {
-        setSelectedFile(prev => ({...prev, svg: svgUrl, fileSize: 12345}));
-      }
-      
-    } catch (error) {
-      console.error('Conversion error:', error);
-      
-      // Stop progress simulation
-      clearInterval(progressInterval);
-      
-      // Update conversion status
-      setConversionStatus(prev => ({
-        ...prev,
-        [imageId]: { status: 'error', progress: 0 }
-      }));
-      
-      alert('Error converting image. Please try again.');
-    }
-  };
+    }, 50);
+  }, [selectedFile]);
   
   // Handle file selection
-  const handleSelectFile = (file) => {
+  const handleSelectFile = useCallback((file) => {
     setSelectedFile(file);
     
-    // If the file doesn't have an SVG preview yet, start conversion
-    if (file && !file.svg) {
-      simulateConversion('demo_session', file.id, settings);
+    // Start conversion if not already done
+    if (!conversionStatus[file.id] || conversionStatus[file.id].status !== 'completed') {
+      simulateConversion(file.id);
     }
-  };
+  }, [conversionStatus]);
   
-  // Handle preview modal
-  const handlePreview = (file) => {
+  // Handle preview
+  const handlePreview = useCallback((file, type) => {
     setPreviewModal({
       isOpen: true,
-      image: file.svg || file.preview,
-      title: file.svg ? 'SVG Preview' : 'Original Image'
+      image: type === 'original' ? file.original : file.svg,
+      title: `${file.name} (${type === 'original' ? 'Original' : 'SVG'})`
     });
-  };
+  }, []);
   
   // Handle settings change
-  const handleSettingsChange = (newSettings) => {
+  const handleSettingsChange = useCallback((newSettings) => {
     setSettings(newSettings);
     
-    // If there's a selected file, reconvert with new settings
-    if (selectedFile?.id) {
-      // Update conversion status
+    if (selectedFile) {
+      // Start conversion with new settings
+      simulateConversion(selectedFile.id, newSettings);
+    }
+  }, [selectedFile]);
+  
+  // Simulate conversion
+  const simulateConversion = useCallback((fileId, customSettings = null) => {
+    setConversionStatus(prev => ({
+      ...prev,
+      [fileId]: { status: 'converting', progress: 0 }
+    }));
+    
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += 5;
+      
       setConversionStatus(prev => ({
         ...prev,
-        [selectedFile.id]: { status: 'converting', progress: 0 }
+        [fileId]: { status: 'converting', progress }
       }));
       
-      // Start conversion with new settings
-      simulateConversion('demo_session', selectedFile.id, newSettings);
-    }
-  };
-  
-  // Clean up object URLs when component unmounts
-  useEffect(() => {
-    return () => {
-      files.forEach(file => {
-        if (file.preview) URL.revokeObjectURL(file.preview);
-      });
-    };
+      if (progress >= 100) {
+        clearInterval(interval);
+        
+        // Update file with SVG result
+        setFiles(prev => prev.map(file => {
+          if (file.id === fileId) {
+            return {
+              ...file,
+              svg: file.original // In a real app, this would be the converted SVG
+            };
+          }
+          return file;
+        }));
+        
+        setConversionStatus(prev => ({
+          ...prev,
+          [fileId]: { status: 'completed', progress: 100 }
+        }));
+      }
+    }, 50);
   }, []);
   
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       <Head>
-        <title>VTracer - Image to SVG Converter</title>
-        <meta name="description" content="Convert your images to scalable vector graphics (SVG) with real-time customization." />
+        <title>Editor - Vectorise.Me</title>
+        <meta name="description" content="Convert and edit your images to SVG with our powerful online editor." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex justify-between items-center">
-            <Link href="/">
-              <span className="text-2xl font-bold text-gray-900 cursor-pointer">
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-purple-500">VTracer</span>
-              </span>
-            </Link>
-            <nav className="flex space-x-4">
-              <Link href="/" className="text-gray-500 hover:text-gray-900">Home</Link>
-              <Link href="/editor" className="text-indigo-600 font-medium">Editor</Link>
-              <Link href="/contact" className="text-gray-500 hover:text-gray-900">Contact</Link>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="space-y-8">
-          {/* Upload Area (show if less than 10 files) */}
-          {files.length < 10 && (
-            <UploadArea 
-              onUpload={handleUpload} 
-              isUploading={isUploading}
-              uploadProgress={uploadProgress}
-            />
-          )}
-          
-          {/* File List (show if files exist) */}
-          {files.length > 0 && (
-            <FileList 
-              files={files} 
-              onSelect={handleSelectFile} 
-              selectedFile={selectedFile}
-              onPreview={handlePreview}
-              conversionStatus={conversionStatus}
-            />
-          )}
-          
-          {/* Before/After Slider */}
-          {selectedFile && (
-            <div className="mt-8">
-              <h3 className="text-lg font-medium text-gray-700 mb-4">Before & After Comparison</h3>
-              <BeforeAfterSlider 
-                originalImage={selectedFile.original} 
-                svgImage={selectedFile.svg} 
-                isProcessing={conversionStatus[selectedFile.id]?.status === 'converting'}
+        <h1 className="text-3xl font-extrabold text-gray-900 mb-8">
+          <TranslatedText id="editorTitle" defaultText="Image to SVG Editor" />
+        </h1>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Left Column */}
+          <div className="lg:col-span-1">
+            {/* Upload Area */}
+            <div className="mb-8">
+              <h2 className="text-lg font-medium text-gray-900 mb-4">
+                <TranslatedText id="uploadImages" defaultText="Upload Images" />
+              </h2>
+              <EnhancedUploadArea 
+                onUpload={handleUpload} 
+                isUploading={isUploading}
+                uploadProgress={uploadProgress}
+                compact={true}
               />
             </div>
-          )}
-          
-          {/* Conversion Progress */}
-          {selectedFile && conversionStatus[selectedFile.id]?.status === 'converting' && (
-            <ConversionProgress 
-              progress={conversionStatus[selectedFile.id]?.progress || 0}
-              status="Converting image to SVG..."
-            />
-          )}
-          
-          {/* Settings and Download */}
-          {selectedFile && (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
-              <div className="md:col-span-2">
-                <SettingsPanel 
-                  settings={settings} 
-                  onChange={handleSettingsChange} 
-                  isProcessing={conversionStatus[selectedFile.id]?.status === 'converting'}
-                />
-              </div>
+            
+            {/* File List */}
+            {files.length > 0 && (
               <div>
-                <DownloadPanel 
-                  svgUrl={selectedFile.svg} 
-                  fileSize={selectedFile.fileSize} 
-                  isReady={!!selectedFile.svg && conversionStatus[selectedFile.id]?.status === 'completed'} 
+                <h2 className="text-lg font-medium text-gray-900 mb-4">
+                  <TranslatedText id="yourImages" defaultText="Your Images" />
+                </h2>
+                <FileList 
+                  files={files} 
+                  onSelect={handleSelectFile} 
+                  selectedFile={selectedFile}
+                  onPreview={handlePreview}
+                  conversionStatus={conversionStatus}
+                  compact={true}
                 />
               </div>
-            </div>
-          )}
-        </div>
-      </main>
-      
-      {/* Preview Modal */}
-      <PreviewModal 
-        isOpen={previewModal.isOpen}
-        onClose={() => setPreviewModal({ isOpen: false, image: null, title: '' })}
-        image={previewModal.image}
-        title={previewModal.title}
-      />
-      
-      <footer className="bg-white border-t border-gray-200 mt-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-sm text-gray-500">
-              &copy; {new Date().getFullYear()} VTracer. All rights reserved.
-            </p>
-            <div className="mt-4 md:mt-0 flex space-x-4">
-              <Link href="/contact" className="text-sm text-indigo-600 hover:text-indigo-500">Contact Us</Link>
-              <a href="#" className="text-sm text-gray-500 hover:text-gray-700">Privacy Policy</a>
-              <a href="#" className="text-sm text-gray-500 hover:text-gray-700">Terms of Service</a>
-            </div>
+            )}
+          </div>
+          
+          {/* Right Column */}
+          <div className="lg:col-span-3">
+            {selectedFile ? (
+              <>
+                {/* Before/After Slider */}
+                <div className="mb-8">
+                  <h2 className="text-lg font-medium text-gray-900 mb-4">
+                    <TranslatedText id="preview" defaultText="Preview" />
+                  </h2>
+                  <BeforeAfterSlider 
+                    originalImage={selectedFile.original} 
+                    svgImage={selectedFile.svg} 
+                    isProcessing={conversionStatus[selectedFile.id]?.status === 'converting'}
+                  />
+                </div>
+                
+                {/* Conversion Progress */}
+                {conversionStatus[selectedFile.id]?.status === 'converting' && (
+                  <div className="mb-8">
+                    <ConversionProgress 
+                      progress={conversionStatus[selectedFile.id]?.progress || 0}
+                      status={<TranslatedText id="converting" defaultText="Converting image to SVG..." />}
+                    />
+                  </div>
+                )}
+                
+                {/* Settings and Download */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  <div className="md:col-span-2">
+                    <h2 className="text-lg font-medium text-gray-900 mb-4">
+                      <TranslatedText id="settings" defaultText="Settings" />
+                    </h2>
+                    <EnhancedSettingsPanel 
+                      settings={settings} 
+                      onChange={handleSettingsChange} 
+                      isProcessing={conversionStatus[selectedFile.id]?.status === 'converting'}
+                    />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-medium text-gray-900 mb-4">
+                      <TranslatedText id="download" defaultText="Download" />
+                    </h2>
+                    <DownloadPanel 
+                      svgUrl={selectedFile.svg} 
+                      fileSize={selectedFile.fileSize} 
+                      isReady={!!selectedFile.svg && conversionStatus[selectedFile.id]?.status === 'completed'} 
+                    />
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="bg-gray-50 rounded-lg p-8 text-center">
+                <svg className="mx-auto h-12 w-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <h3 className="mt-2 text-sm font-medium text-gray-900">
+                  <TranslatedText id="noImageSelected" defaultText="No image selected" />
+                </h3>
+                <p className="mt-1 text-sm text-gray-500">
+                  <TranslatedText id="uploadOrSelectImage" defaultText="Upload a new image or select one from your list to start editing." />
+                </p>
+              </div>
+            ) }
           </div>
         </div>
-      </footer>
+        
+        {/* Preview Modal */}
+        {previewModal.isOpen && (
+          <PreviewModal 
+            isOpen={previewModal.isOpen}
+            onClose={() => setPreviewModal({ isOpen: false, image: null, title: '' })}
+            image={previewModal.image}
+            title={previewModal.title}
+          />
+        )}
+      </main>
       
-      <AdBlockerNotification />
+      <Footer />
     </div>
   );
 }
