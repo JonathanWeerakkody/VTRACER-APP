@@ -1,20 +1,26 @@
-// components/ConversionProgress.js
-import React from 'react';
-
 export default function ConversionProgress({ progress, status }) {
   return (
-    <div className="bg-white rounded-lg shadow p-4">
-      <div className="flex items-center justify-between mb-2">
-        <h3 className="text-sm font-medium text-gray-700">Conversion Progress</h3>
-        <span className="text-xs font-medium text-indigo-600">{progress}%</span>
+    <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+      <div className="px-4 py-5 sm:p-6">
+        <h3 className="text-lg leading-6 font-medium text-gray-900">
+          {status}
+        </h3>
+        <div className="mt-4">
+          <div className="relative pt-1">
+            <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-indigo-200">
+              <div 
+                style={{ width: `${progress}%` }} 
+                className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-indigo-500 transition-all duration-300"
+              ></div>
+            </div>
+            <div className="text-right">
+              <span className="text-sm font-semibold inline-block text-indigo-600">
+                {progress}%
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="w-full bg-gray-200 rounded-full h-2">
-        <div 
-          className="bg-indigo-600 h-2 rounded-full transition-all duration-300" 
-          style={{ width: `${progress}%` }}
-        ></div>
-      </div>
-      <p className="text-xs text-gray-500 mt-2">{status}</p>
     </div>
   );
 }
