@@ -1,41 +1,44 @@
 // components/EnhancedSettingsPanel.js
 
 import { useState, useEffect } from 'react';
-import TranslatedText from './i18n/TranslatedText';
+import TranslatedText from './i18n/TranslatedText'; 
+// ^ Make sure you have this or replace with your own i18n / text component
 
 export default function EnhancedSettingsPanel({ settings, onChange, isProcessing }) {
-  // Merge any incoming settings with defaults
+  // Merge defaults with any incoming prop-based settings
   const [localSettings, setLocalSettings] = useState({
-    colorMode: 'color',     // 'bw' or 'color'
-    bwThreshold: 128,       // only used if colorMode = 'bw'
-    layerMode: 'stacked',   // 'stacked' or 'cutout'
-    
+    // Clustering options
+    colorMode: 'color',    // 'bw' or 'color'
+    bwThreshold: 128,      // only relevant if colorMode = 'bw'
+    layerMode: 'stacked',  // 'cutout' or 'stacked'
+
     // Filter options
-    filterSpeckle: 4,       // 1-20
-    colorPrecision: 6,      // 1-10 (only for color)
-    gradientStep: 16,       // 1-32 (only for color)
-    
+    filterSpeckle: 4,      // 1-20
+    colorPrecision: 6,     // 1-10 (only for color mode)
+    gradientStep: 16,      // 1-32 (only for color mode)
+
     // Curve fitting options
     curveFitting: 'spline', // 'pixel', 'polygon', or 'spline'
-    cornerThreshold: 60,    // 1-100
-    segmentLength: 4,       // 1-10
-    spliceThreshold: 45,    // 1-100
-    
+    cornerThreshold: 60,   // 1-100
+    segmentLength: 4,      // 1-10
+    spliceThreshold: 45,   // 1-100
+
     // Additional options
     strokeWidthDetection: true,
     backgroundTransparency: false,
-    // Spread in any props.settings overrides
+
+    // Apply any overrides passed down by props
     ...(settings || {})
   });
 
-  // Update local settings when props change
+  // Whenever `settings` prop changes, update our local state
   useEffect(() => {
     if (settings) {
       setLocalSettings((prev) => ({ ...prev, ...settings }));
     }
   }, [settings]);
 
-  // Handle setting change
+  // Generic handler for changes
   const handleChange = (key, value) => {
     const newSettings = { ...localSettings, [key]: value };
     setLocalSettings(newSettings);
@@ -49,20 +52,21 @@ export default function EnhancedSettingsPanel({ settings, onChange, isProcessing
       </h2>
 
       <div className="space-y-6">
-        {/* =====================
+        {/* ======================
             CLUSTERING SECTION
-            ===================== */}
+           ====================== */}
         <div className="border-b pb-4">
           <h3 className="text-md font-medium mb-3 text-indigo-600">
             <TranslatedText id="clustering" defaultText="Clustering" />
           </h3>
 
-          {/* COLOR MODE */}
+          {/* Color Mode */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-1">
               <TranslatedText id="colorMode" defaultText="Color Mode" />
             </label>
             <div className="flex space-x-4">
+              {/* B/W Radio */}
               <label className="inline-flex items-center">
                 <input
                   type="radio"
@@ -77,6 +81,8 @@ export default function EnhancedSettingsPanel({ settings, onChange, isProcessing
                   <TranslatedText id="bw" defaultText="B/W" />
                 </span>
               </label>
+
+              {/* Color Radio */}
               <label className="inline-flex items-center">
                 <input
                   type="radio"
@@ -94,7 +100,7 @@ export default function EnhancedSettingsPanel({ settings, onChange, isProcessing
             </div>
           </div>
 
-          {/* ONLY SHOW IF colorMode = 'bw' */}
+          {/* Only show threshold slider if colorMode = 'bw' */}
           {localSettings.colorMode === 'bw' && (
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -113,12 +119,13 @@ export default function EnhancedSettingsPanel({ settings, onChange, isProcessing
             </div>
           )}
 
-          {/* LAYER MODE */}
+          {/* Layer Mode */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               <TranslatedText id="layerMode" defaultText="Layer Mode" />
             </label>
             <div className="flex space-x-4">
+              {/* Cutout */}
               <label className="inline-flex items-center">
                 <input
                   type="radio"
@@ -133,6 +140,8 @@ export default function EnhancedSettingsPanel({ settings, onChange, isProcessing
                   <TranslatedText id="cutout" defaultText="Cutout" />
                 </span>
               </label>
+
+              {/* Stacked */}
               <label className="inline-flex items-center">
                 <input
                   type="radio"
@@ -151,15 +160,15 @@ export default function EnhancedSettingsPanel({ settings, onChange, isProcessing
           </div>
         </div>
 
-        {/* =====================
+        {/* ======================
             FILTER OPTIONS
-            ===================== */}
+           ====================== */}
         <div className="border-b pb-4">
           <h3 className="text-md font-medium mb-3 text-indigo-600">
             <TranslatedText id="filterOptions" defaultText="Filter Options" />
           </h3>
 
-          {/* Filter Speckle (applies to both modes) */}
+          {/* Filter Speckle - always shown (for both B/W and color) */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-1">
               <TranslatedText id="filterSpeckle" defaultText="Filter Speckle" /> (
@@ -177,7 +186,7 @@ export default function EnhancedSettingsPanel({ settings, onChange, isProcessing
             />
           </div>
 
-          {/* ONLY SHOW IF colorMode = 'color' */}
+          {/* Only show colorPrecision + gradientStep if colorMode = 'color' */}
           {localSettings.colorMode === 'color' && (
             <>
               {/* Color Precision */}
@@ -219,9 +228,9 @@ export default function EnhancedSettingsPanel({ settings, onChange, isProcessing
           )}
         </div>
 
-        {/* =====================
+        {/* ======================
             CURVE FITTING
-            ===================== */}
+           ====================== */}
         <div className="border-b pb-4">
           <h3 className="text-md font-medium mb-3 text-indigo-600">
             <TranslatedText id="curveFitting" defaultText="Curve Fitting" />
@@ -333,9 +342,9 @@ export default function EnhancedSettingsPanel({ settings, onChange, isProcessing
           </div>
         </div>
 
-        {/* =====================
+        {/* ======================
             ADDITIONAL OPTIONS
-            ===================== */}
+           ====================== */}
         <div>
           <h3 className="text-md font-medium mb-3 text-indigo-600">
             <TranslatedText id="additionalOptions" defaultText="Additional Options" />
