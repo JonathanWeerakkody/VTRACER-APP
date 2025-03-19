@@ -110,7 +110,7 @@ export default function EnhancedSettingsPanel({ settings, onChange, isProcessing
           {localSettings.colorMode === 'bw' && (
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                <TranslatedText id="bwThreshold" defaultText="B/W Threshold" />:
+                <TranslatedText id="bwThreshold" defaultText="B/W Threshold" />
               </label>
               <div className="flex items-center space-x-2">
                 <input
@@ -118,7 +118,9 @@ export default function EnhancedSettingsPanel({ settings, onChange, isProcessing
                   min="0"
                   max="255"
                   value={localSettings.bwThreshold}
-                  onChange={(e) => handleChange('bwThreshold', parseInt(e.target.value))}
+                  onChange={(e) =>
+                    handleChange('bwThreshold', parseInt(e.target.value))
+                  }
                   disabled={isProcessing}
                   className="w-full"
                 />
@@ -220,11 +222,9 @@ export default function EnhancedSettingsPanel({ settings, onChange, isProcessing
               {/* Color Precision */}
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  <TranslatedText
-                    id="colorPrecision"
-                    defaultText="Color Precision"
-                  />{' '}
-                  (<TranslatedText id="moreAccurate" defaultText="More accurate" />):
+                  <TranslatedText id="colorPrecision" defaultText="Color Precision" /> (
+                  <TranslatedText id="moreAccurate" defaultText="More accurate" />
+                  ):
                 </label>
                 <div className="flex items-center space-x-2">
                   <input
@@ -255,11 +255,9 @@ export default function EnhancedSettingsPanel({ settings, onChange, isProcessing
               {/* Gradient Step */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  <TranslatedText
-                    id="gradientStep"
-                    defaultText="Gradient Step"
-                  />{' '}
-                  (<TranslatedText id="lessLayers" defaultText="Less layers" />):
+                  <TranslatedText id="gradientStep" defaultText="Gradient Step" /> (
+                  <TranslatedText id="lessLayers" defaultText="Less layers" />
+                  ):
                 </label>
                 <div className="flex items-center space-x-2">
                   <input
@@ -301,10 +299,7 @@ export default function EnhancedSettingsPanel({ settings, onChange, isProcessing
           {/* Curve Fitting Mode */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              <TranslatedText
-                id="curveFittingMode"
-                defaultText="Curve Fitting Mode"
-              />
+              <TranslatedText id="curveFittingMode" defaultText="Curve Fitting Mode" />
             </label>
             <div className="flex space-x-4">
               {/* pixel */}
@@ -360,11 +355,9 @@ export default function EnhancedSettingsPanel({ settings, onChange, isProcessing
           {/* Corner Threshold */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              <TranslatedText
-                id="cornerThreshold"
-                defaultText="Corner Threshold"
-              />{' '}
-              (<TranslatedText id="smoother" defaultText="Smoother" />):
+              <TranslatedText id="cornerThreshold" defaultText="Corner Threshold" /> (
+              <TranslatedText id="smoother" defaultText="Smoother" />
+              ):
             </label>
             <div className="flex items-center space-x-2">
               <input
@@ -464,4 +457,53 @@ export default function EnhancedSettingsPanel({ settings, onChange, isProcessing
            ====================== */}
         <div>
           <h3 className="text-md font-medium mb-3 text-indigo-600">
-            <TranslatedText id="additionalOptions" defaultText="Addit
+            <TranslatedText
+              id="additionalOptions"
+              defaultText="Additional Options"
+            />
+          </h3>
+
+          <div className="space-y-2">
+            {/* Stroke Width Detection */}
+            <label className="flex items-center">
+              <input
+                type="checkbox"
+                className="form-checkbox"
+                checked={localSettings.strokeWidthDetection}
+                onChange={(e) =>
+                  handleChange('strokeWidthDetection', e.target.checked)
+                }
+                disabled={isProcessing}
+              />
+              <span className="ml-2">
+                <TranslatedText
+                  id="strokeWidthDetection"
+                  defaultText="Stroke Width Detection"
+                />
+              </span>
+            </label>
+
+            {/* Background Transparency */}
+            <label className="flex items-center">
+              <input
+                type="checkbox"
+                className="form-checkbox"
+                checked={localSettings.backgroundTransparency}
+                onChange={(e) =>
+                  handleChange('backgroundTransparency', e.target.checked)
+                }
+                disabled={isProcessing}
+              />
+              <span className="ml-2">
+                <TranslatedText
+                  id="backgroundTransparency"
+                  defaultText="Background Transparency"
+                />
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
