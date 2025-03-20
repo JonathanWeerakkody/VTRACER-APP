@@ -167,11 +167,7 @@ export default function FAQ() {
             <div>
               <h2>How do I contact support?</h2>
               <p>
-                If you have any questions, feedback, or issues with Vectorise.Me, you can contact us at:
-              </p>
-              <p>
-                Email: jonkarystudio@gmail.com<br />
-                Phone: 2036872785
+                If you have any questions, feedback, or issues with Vectorise.Me, you can contact us through our contact form on the website.
               </p>
             </div>
           </div>
@@ -182,3 +178,4 @@ export default function FAQ() {
     </div>
   );
 }
+
