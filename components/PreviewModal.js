@@ -1,9 +1,27 @@
-import { Fragment, useRef } from 'react';
+import { Fragment, useRef, useState, useEffect } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import TranslatedText from './i18n/TranslatedText';
 
-export default function PreviewModal({ isOpen, onClose, image, title }) {
+export default function PreviewModal({ isOpen, onClose, image, title, settings, originalImage }) {
   const cancelButtonRef = useRef(null);
+  const [previewImage, setPreviewImage] = useState(image);
+  const [isLoading, setIsLoading] = useState(false);
+  
+  // Update preview image when settings change or when modal opens
+  useEffect(() => {
+    if (isOpen && originalImage && settings) {
+      setIsLoading(true);
+      
+      // In a real implementation, this would call the actual conversion API with the settings
+      // For now, we'll simulate a delay and just use the provided image
+      const timer = setTimeout(() => {
+        setPreviewImage(image);
+        setIsLoading(false);
+      }, 500);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen, settings, originalImage, image]);
   
   return (
     <Transition.Root show={isOpen} as={Fragment}>
@@ -48,11 +66,20 @@ export default function PreviewModal({ isOpen, onClose, image, title }) {
                     {title}
                   </Dialog.Title>
                   <div className="mt-4 bg-gray-100 rounded-lg overflow-hidden">
-                    <img 
-                      src={image} 
-                      alt={title}
-                      className="w-full h-auto max-h-[70vh] object-contain"
-                    />
+                    {isLoading ? (
+                      <div className="flex items-center justify-center h-[70vh]">
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+                      </div>
+                    ) : (
+                      <img 
+                        src={previewImage} 
+                        alt={title}
+                        className="w-full h-auto max-h-[70vh] object-contain"
+                      />
+                    )}
+                  </div>
+                  <div className="mt-2 text-sm text-gray-500">
+                    <p><TranslatedText id="previewNote" defaultText="This is a preview based on your current settings. The final SVG may vary slightly." /></p>
                   </div>
                 </div>
               </div>
