@@ -4,18 +4,18 @@ import { useState } from 'react';
 export default function ContactForm() {
   const [formData, setFormData] = useState({
     name: '',
-    email: '',
     subject: '',
     message: ''
   });
+  
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
-
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -33,7 +33,6 @@ export default function ContactForm() {
       // Reset form
       setFormData({
         name: '',
-        email: '',
         subject: '',
         message: ''
       });
@@ -47,7 +46,7 @@ export default function ContactForm() {
       setIsSubmitting(false);
     }
   };
-
+  
   return (
     <div className="bg-white shadow rounded-lg p-6">
       <h2 className="text-2xl font-bold mb-6">Contact Us</h2>
@@ -72,18 +71,7 @@ export default function ContactForm() {
           />
         </div>
         
-        <div className="mb-4">
-          <label htmlFor="email" className="block text-gray-700 font-medium mb-2">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
-        </div>
+        {/* Email field removed as requested */}
         
         <div className="mb-4">
           <label htmlFor="subject" className="block text-gray-700 font-medium mb-2">Subject</label>
