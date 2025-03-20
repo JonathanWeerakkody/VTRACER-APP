@@ -3,14 +3,14 @@ import TranslatedText from './i18n/TranslatedText'; // Assumed translation compo
 
 export default function EnhancedSettingsPanel({ settings, onChange, isProcessing, onApplyToAll }) {
   const [localSettings, setLocalSettings] = useState({
-    colorMode: 'colored',      // Default to 'colored'
-    clustering: 'stacked',     // Default clustering mode
+    colorMode: 'colored',      // Default: Colored output
+    clustering: 'stacked',     // Default: Stacked shapes
     colorPrecision: 6,         // Default values
     gradientStep: 16,
     filterSpeckle: 4,
-    curveFitting: 'spline',    // Default curve fitting mode
-    splineTension: 0.5,        // Specific to spline
-    cornerThreshold: 60,       // Specific to polygon
+    curveFitting: 'spline',    // Default: Smooth curves
+    splineTension: 0.5,        // For Spline only
+    cornerThreshold: 60,       // For Polygon only
     ...settings,               // Override defaults with props
   });
 
@@ -36,265 +36,300 @@ export default function EnhancedSettingsPanel({ settings, onChange, isProcessing
     if (onApplyToAll) onApplyToAll(localSettings);
   };
 
-  // Dynamic conditions
+  // Conditions for dynamic display
   const isColoredMode = localSettings.colorMode === 'colored';
   const isSplineMode = localSettings.curveFitting === 'spline';
   const isPolygonMode = localSettings.curveFitting === 'polygon';
 
   return (
-    <div className="bg-white rounded-lg shadow p-4">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-medium">
+    <div className="bg-white rounded-lg shadow p-6 max-w-md mx-auto">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-xl font-semibold text-gray-800">
           <TranslatedText id="settings" defaultText="Settings" />
         </h2>
         {onApplyToAll && (
           <button
             onClick={handleApplyToAll}
             disabled={isProcessing}
-            className={`px-3 py-1.5 text-xs font-medium rounded text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${isProcessing ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`px-4 py-2 text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 ${isProcessing ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             <TranslatedText id="applyToAll" defaultText="Apply to All Images" />
           </button>
         )}
       </div>
 
-      {/* Color Mode Selection */}
-      <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          <TranslatedText id="colorMode" defaultText="Color Mode" />
-        </label>
-        <div className="flex space-x-4">
-          {['colored', 'bw'].map((mode) => (
-            <button
-              key={mode}
-              type="button"
-              onClick={() => handleModeChange(mode, 'colorMode')}
-              className={`px-4 py-2 text-sm font-medium rounded-md ${localSettings.colorMode === mode ? 'bg-indigo-100 text-indigo-700 border border-indigo-300' : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'}`}
-            >
-              <TranslatedText id={`${mode}Mode`} defaultText={mode === 'colored' ? 'Colored' : 'Black & White'} />
-            </button>
-          ))}
-        </div>
-        <p className="mt-2 text-xs text-gray-500">
-          <TranslatedText id="colorModeDesc" defaultText="Choose whether the output should be colored or black and white." />
-        </p>
-      </div>
+      {/* Color Settings Section */}
+      <section className="mb-8">
+        <h3 className="text-lg font-medium text-gray-900 mb-4">Color Settings</h3>
 
-      {/* Clustering (Only for Colored Mode) */}
-      {isColoredMode && (
+        {/* Color Mode */}
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            <TranslatedText id="clustering" defaultText="Clustering" />
-          </label>
-          <div className="flex space-x-4">
-            {['stacked', 'cutout'].map((mode) => (
+          <div className="flex items-center">
+            <label className="text-sm font-medium text-gray-700">
+              <TranslatedText id="colorMode" defaultText="Color Style" />
+            </label>
+            <span className="ml-2 text-gray-400 cursor-help" title="Pick if your image should have colors or just black and white. 'Colored' keeps all the colors, while 'Black & White' simplifies it to outlines.">ⓘ</span>
+          </div>
+          <div className="flex space-x-4 mt-2">
+            {['colored', 'bw'].map((mode) => (
               <button
                 key={mode}
                 type="button"
-                onClick={() => handleModeChange(mode, 'clustering')}
-                className={`px-4 py-2 text-sm font-medium rounded-md ${localSettings.clustering === mode ? 'bg-indigo-100 text-indigo-700 border border-indigo-300' : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'}`}
+                onClick={() => handleModeChange(mode, 'colorMode')}
+                className={`px-4 py-2 text-sm font-medium rounded-md ${localSettings.colorMode === mode ? 'bg-blue-100 text-blue-700 border-blue-300' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'} border`}
               >
-                <TranslatedText id={`${mode}Clustering`} defaultText={mode.charAt(0).toUpperCase() + mode.slice(1)} />
+                <TranslatedText id={`${mode}Mode`} defaultText={mode === 'colored' ? 'Colored' : 'Black & White'} />
               </button>
             ))}
           </div>
-          <p className="mt-2 text-xs text-gray-500">
-            <TranslatedText id="clusteringDesc" defaultText="Should shapes be stacked on top of another or be disjoint?" />
-          </p>
         </div>
-      )}
 
-      {/* Color Precision (Only for Colored Mode) */}
-      {isColoredMode && (
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            <TranslatedText id="colorPrecision" defaultText="Color Precision" />
-          </label>
-          <div className="flex items-center space-x-4">
-            <input
-              type="range"
-              name="colorPrecision"
-              min="1"
-              max="8"
-              value={localSettings.colorPrecision}
-              onChange={handleChange}
-              disabled={isProcessing}
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-            />
-            <input
-              type="number"
-              name="colorPrecision"
-              value={localSettings.colorPrecision}
-              onChange={handleChange}
-              disabled={isProcessing}
-              className="w-16 px-2 py-1 border border-gray-300 rounded-md text-sm"
-              min="1"
-              max="8"
-            />
+        {/* Clustering (Colored Mode Only) */}
+        {isColoredMode && (
+          <div className="mb-6">
+            <div className="flex items-center">
+              <label className="text-sm font-medium text-gray-700">
+                <TranslatedText id="clustering" defaultText="Shape Arrangement" />
+              </label>
+              <span className="ml-2 text-gray-400 cursor-help" title="Choose how colored shapes stack up. 'Stacked' layers them on top, keeping overlaps. 'Cutout' removes overlaps for a flatter look.">ⓘ</span>
+            </div>
+            <div className="flex space-x-4 mt-2">
+              {['stacked', 'cutout'].map((mode) => (
+                <button
+                  key={mode}
+                  type="button"
+                  onClick={() => handleModeChange(mode, 'clustering')}
+                  className={`px-4 py-2 text-sm font-medium rounded-md ${localSettings.clustering === mode ? 'bg-blue-100 text-blue-700 border-blue-300' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'} border`}
+                >
+                  <TranslatedText id={`${mode}Clustering`} defaultText={mode === 'stacked' ? 'Stacked' : 'Cutout'} />
+                </button>
+              ))}
+            </div>
           </div>
-          <p className="mt-2 text-xs text-gray-500">
-            <TranslatedText id="colorPrecisionDesc" defaultText="Number of significant bits to use in an RGB channel." />
-          </p>
-        </div>
-      )}
+        )}
 
-      {/* Gradient Step (Only for Colored Mode) */}
-      {isColoredMode && (
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            <TranslatedText id="gradientStep" defaultText="Gradient Step" />
-          </label>
-          <div className="flex items-center space-x-4">
-            <input
-              type="range"
-              name="gradientStep"
-              min="1"
-              max="32"
-              value={localSettings.gradientStep}
-              onChange={handleChange}
-              disabled={isProcessing}
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-            />
-            <input
-              type="number"
-              name="gradientStep"
-              value={localSettings.gradientStep}
-              onChange={handleChange}
-              disabled={isProcessing}
-              className="w-16 px-2 py-1 border border-gray-300 rounded-md text-sm"
-              min="1"
-              max="32"
-            />
+        {/* Color Precision (Colored Mode Only) */}
+        {isColoredMode && (
+          <div className="mb-6">
+            <div className="flex items-center">
+              <label className="text-sm font-medium text-gray-700">
+                <TranslatedText id="colorPrecision" defaultText="Color Variety" />
+              </label>
+              <span className="ml-2 text-gray-400 cursor-help" title="Set how many colors your image uses. A higher number keeps more colors, making it look richer but more complex.">ⓘ</span>
+            </div>
+            <div className="flex items-center space-x-4 mt-2">
+              <input
+                type="range"
+                name="colorPrecision"
+                min="1"
+                max="8"
+                value={localSettings.colorPrecision}
+                onChange={handleChange}
+                disabled={isProcessing}
+                className="w-full h-2 bg-gray-200 rounded-lg cursor-pointer"
+              />
+              <input
+                type="number"
+                name="colorPrecision"
+                value={localSettings.colorPrecision}
+                onChange={handleChange}
+                disabled={isProcessing}
+                className="w-16 px-2 py-1 border border-gray-300 rounded-md text-sm"
+                min="1"
+                max="8"
+              />
+            </div>
+            <div className="flex justify-between text-xs text-gray-500 mt-1">
+              <span>1</span>
+              <span>4</span>
+              <span>8</span>
+            </div>
           </div>
-          <p className="mt-2 text-xs text-gray-500">
-            <TranslatedText id="gradientStepDesc" defaultText="Color difference between gradient layers." />
-          </p>
-        </div>
-      )}
+        )}
 
-      {/* Filter Speckle */}
-      <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          <TranslatedText id="filterSpeckle" defaultText="Filter Speckle" />
-        </label>
-        <div className="flex items-center space-x-4">
-          <input
-            type="range"
-            name="filterSpeckle"
-            min="0"
-            max="10"
-            value={localSettings.filterSpeckle}
-            onChange={handleChange}
-            disabled={isProcessing}
-            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-          />
-          <input
-            type="number"
-            name="filterSpeckle"
-            value={localSettings.filterSpeckle}
-            onChange={handleChange}
-            disabled={isProcessing}
-            className="w-16 px-2 py-1 border border-gray-300 rounded-md text-sm"
-            min="0"
-            max="10"
-          />
-        </div>
-        <p className="mt-2 text-xs text-gray-500">
-          <TranslatedText id="filterSpeckleDesc" defaultText="Discard patches smaller than X px in size." />
-        </p>
-      </div>
+        {/* Gradient Step (Colored Mode Only) */}
+        {isColoredMode && (
+          <div className="mb-6">
+            <div className="flex items-center">
+              <label className="text-sm font-medium text-gray-700">
+                <TranslatedText id="gradientStep" defaultText="Color Blend" />
+              </label>
+              <span className="ml-2 text-gray-400 cursor-help" title="Adjust how smoothly colors change in gradients. Smaller numbers make blends softer, bigger numbers make them sharper.">ⓘ</span>
+            </div>
+            <div className="flex items-center space-x-4 mt-2">
+              <input
+                type="range"
+                name="gradientStep"
+                min="1"
+                max="32"
+                value={localSettings.gradientStep}
+                onChange={handleChange}
+                disabled={isProcessing}
+                className="w-full h-2 bg-gray-200 rounded-lg cursor-pointer"
+              />
+              <input
+                type="number"
+                name="gradientStep"
+                value={localSettings.gradientStep}
+                onChange={handleChange}
+                disabled={isProcessing}
+                className="w-16 px-2 py-1 border border-gray-300 rounded-md text-sm"
+                min="1"
+                max="32"
+              />
+            </div>
+            <div className="flex justify-between text-xs text-gray-500 mt-1">
+              <span>1</span>
+              <span>16</span>
+              <span>32</span>
+            </div>
+          </div>
+        )}
+      </section>
 
-      {/* Curve Fitting */}
-      <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          <TranslatedText id="curveFitting" defaultText="Curve Fitting" />
-        </label>
-        <div className="flex space-x-4">
-          {['spline', 'polygon', 'pixel'].map((mode) => (
-            <button
-              key={mode}
-              type="button"
-              onClick={() => handleModeChange(mode, 'curveFitting')}
-              className={`px-4 py-2 text-sm font-medium rounded-md ${localSettings.curveFitting === mode ? 'bg-indigo-100 text-indigo-700 border border-indigo-300' : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'}`}
-            >
-              <TranslatedText id={`${mode}Mode`} defaultText={mode.charAt(0).toUpperCase() + mode.slice(1)} />
-            </button>
-          ))}
-        </div>
-        <p className="mt-2 text-xs text-gray-500">
-          <TranslatedText id="curveFittingDesc" defaultText="Choose the curve fitting mode." />
-        </p>
-      </div>
+      {/* Path Settings Section */}
+      <section className="mb-8">
+        <h3 className="text-lg font-medium text-gray-900 mb-4">Path Settings</h3>
 
-      {/* Spline Tension (Only for Spline Mode) */}
-      {isSplineMode && (
+        {/* Filter Speckle */}
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            <TranslatedText id="splineTension" defaultText="Spline Tension" />
-          </label>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center">
+            <label className="text-sm font-medium text-gray-700">
+              <TranslatedText id="filterSpeckle" defaultText="Noise Cleanup" />
+            </label>
+            <span className="ml-2 text-gray-400 cursor-help" title="Remove tiny spots or noise from the image. Higher numbers clean up more but might erase small details.">ⓘ</span>
+          </div>
+          <div className="flex items-center space-x-4 mt-2">
             <input
               type="range"
-              name="splineTension"
+              name="filterSpeckle"
               min="0"
-              max="1"
-              step="0.1"
-              value={localSettings.splineTension}
+              max="10"
+              value={localSettings.filterSpeckle}
               onChange={handleChange}
               disabled={isProcessing}
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+              className="w-full h-2 bg-gray-200 rounded-lg cursor-pointer"
             />
             <input
               type="number"
-              name="splineTension"
-              value={localSettings.splineTension}
+              name="filterSpeckle"
+              value={localSettings.filterSpeckle}
               onChange={handleChange}
               disabled={isProcessing}
               className="w-16 px-2 py-1 border border-gray-300 rounded-md text-sm"
               min="0"
-              max="1"
-              step="0.1"
+              max="10"
             />
           </div>
-          <p className="mt-2 text-xs text-gray-500">
-            <TranslatedText id="splineTensionDesc" defaultText="Adjust the tension of the spline curves." />
-          </p>
+          <div className="flex justify-between text-xs text-gray-500 mt-1">
+            <span>0</span>
+            <span>5</span>
+            <span>10</span>
+          </div>
         </div>
-      )}
 
-      {/* Corner Threshold (Only for Polygon Mode) */}
-      {isPolygonMode && (
+        {/* Curve Fitting */}
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            <TranslatedText id="cornerThreshold" defaultText="Corner Threshold" />
-          </label>
-          <div className="flex items-center space-x-4">
-            <input
-              type="range"
-              name="cornerThreshold"
-              min="0"
-              max="180"
-              value={localSettings.cornerThreshold}
-              onChange={handleChange}
-              disabled={isProcessing}
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-            />
-            <input
-              type="number"
-              name="cornerThreshold"
-              value={localSettings.cornerThreshold}
-              onChange={handleChange}
-              disabled={isProcessing}
-              className="w-16 px-2 py-1 border border-gray-300 rounded-md text-sm"
-              min="0"
-              max="180"
-            />
+          <div className="flex items-center">
+            <label className="text-sm font-medium text-gray-700">
+              <TranslatedText id="curveFitting" defaultText="Line Style" />
+            </label>
+            <span className="ml-2 text-gray-400 cursor-help" title="Choose how lines are drawn. 'Spline' makes smooth curves, 'Polygon' uses straight lines, 'Pixel' keeps it exact to the image.">ⓘ</span>
           </div>
-          <p className="mt-2 text-xs text-gray-500">
-            <TranslatedText id="cornerThresholdDesc" defaultText="Angle threshold for corner detection in degrees." />
-          </p>
+          <div className="flex space-x-4 mt-2">
+            {['spline', 'polygon', 'pixel'].map((mode) => (
+              <button
+                key={mode}
+                type="button"
+                onClick={() => handleModeChange(mode, 'curveFitting')}
+                className={`px-4 py-2 text-sm font-medium rounded-md ${localSettings.curveFitting === mode ? 'bg-blue-100 text-blue-700 border-blue-300' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'} border`}
+              >
+                <TranslatedText id={`${mode}Mode`} defaultText={mode.charAt(0).toUpperCase() + mode.slice(1)} />
+              </button>
+            ))}
+          </div>
         </div>
-      )}
+
+        {/* Spline Tension (Spline Mode Only) */}
+        {isSplineMode && (
+          <div className="mb-6">
+            <div className="flex items-center">
+              <label className="text-sm font-medium text-gray-700">
+                <TranslatedText id="splineTension" defaultText="Curve Smoothness" />
+              </label>
+              <span className="ml-2 text-gray-400 cursor-help" title="Adjust how smooth the curves look. Lower numbers keep curves tight to the image, higher numbers make them flow more.">ⓘ</span>
+            </div>
+            <div className="flex items-center space-x-4 mt-2">
+              <input
+                type="range"
+                name="splineTension"
+                min="0"
+                max="1"
+                step="0.1"
+                value={localSettings.splineTension}
+                onChange={handleChange}
+                disabled={isProcessing}
+                className="w-full h-2 bg-gray-200 rounded-lg cursor-pointer"
+              />
+              <input
+                type="number"
+                name="splineTension"
+                value={localSettings.splineTension}
+                onChange={handleChange}
+                disabled={isProcessing}
+                className="w-16 px-2 py-1 border border-gray-300 rounded-md text-sm"
+                min="0"
+                max="1"
+                step="0.1"
+              />
+            </div>
+            <div className="flex justify-between text-xs text-gray-500 mt-1">
+              <span>0</span>
+              <span>0.5</span>
+              <span>1</span>
+            </div>
+          </div>
+        )}
+
+        {/* Corner Threshold (Polygon Mode Only) */}
+        {isPolygonMode && (
+          <div className="mb-6">
+            <div className="flex items-center">
+              <label className="text-sm font-medium text-gray-700">
+                <TranslatedText id="cornerThreshold" defaultText="Corner Sharpness" />
+              </label>
+              <span className="ml-2 text-gray-400 cursor-help" title="Decide how sharp a turn needs to be to form a corner. Lower numbers catch more corners, higher numbers simplify the shape.">ⓘ</span>
+            </div>
+            <div className="flex items-center space-x-4 mt-2">
+              <input
+                type="range"
+                name="cornerThreshold"
+                min="0"
+                max="180"
+                value={localSettings.cornerThreshold}
+                onChange={handleChange}
+                disabled={isProcessing}
+                className="w-full h-2 bg-gray-200 rounded-lg cursor-pointer"
+              />
+              <input
+                type="number"
+                name="cornerThreshold"
+                value={localSettings.cornerThreshold}
+                onChange={handleChange}
+                disabled={isProcessing}
+                className="w-16 px-2 py-1 border border-gray-300 rounded-md text-sm"
+                min="0"
+                max="180"
+              />
+            </div>
+            <div className="flex justify-between text-xs text-gray-500 mt-1">
+              <span>0°</span>
+              <span>90°</span>
+              <span>180°</span>
+            </div>
+          </div>
+        )}
+      </section>
     </div>
   );
 }
