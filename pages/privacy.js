@@ -88,10 +88,6 @@ export default function Privacy() {
           <p>
             If you have any questions about this privacy policy or our privacy practices, please contact us at:
           </p>
-          <p>
-            Email: jonkarystudio@gmail.com<br />
-            Phone: 2036872785
-          </p>
         </div>
       </main>
       
