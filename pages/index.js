@@ -15,6 +15,8 @@ import BeforeAfterSlider from '../components/BeforeAfterSlider';
 import ConversionProgress from '../components/ConversionProgress';
 import DownloadPanel from '../components/DownloadPanel';
 import PreviewModal from '../components/PreviewModal';
+import BatchDownloadPanel from '../components/BatchDownloadPanel';
+
 
 export default function Home() {
   const router = useRouter();
