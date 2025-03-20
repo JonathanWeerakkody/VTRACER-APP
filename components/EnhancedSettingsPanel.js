@@ -7,7 +7,6 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
     hierarchicalClustering: 'stacked', // 'stacked' or 'cutout'
     curveFitting: 'spline',           // 'none', 'polygon', 'spline'
     filterSpeckle: 4,
-    pathPrecision: 8,
     colorPrecision: 6,
     layerDifference: 16,
     cornerThreshold: 60,
@@ -16,7 +15,7 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
     ...settings,
   });
 
-  // Handle button selections (e.g., clusteringMode, curveFitting)
+  // Handle button selections
   const handleModeChange = (field, value) => {
     const newSettings = { ...localSettings, [field]: value };
     setLocalSettings(newSettings);
@@ -48,7 +47,7 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
                 : 'bg-white text-gray-700 border-gray-300'
             }`}
           >
-            Binary
+            B/W
           </button>
           <button
             onClick={() => handleModeChange('clusteringMode', 'color')}
@@ -63,49 +62,80 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
         </div>
       </div>
 
-      {/* Color Clustering Options (shown when clusteringMode is 'color') */}
+      {/* Hierarchical Clustering (Always Visible) */}
+      <div className="mb-6">
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Hierarchical Clustering
+        </label>
+        <div className="flex space-x-4">
+          <button
+            onClick={() => handleModeChange('hierarchicalClustering', 'stacked')}
+            className={`px-4 py-2 text-sm font-medium rounded-md border ${
+              localSettings.hierarchicalClustering === 'stacked'
+                ? 'bg-blue-100 text-blue-700 border-blue-300'
+                : 'bg-white text-gray-700 border-gray-300'
+            }`}
+          >
+            Stacked
+          </button>
+          <button
+            onClick={() => handleModeChange('hierarchicalClustering', 'cutout')}
+            className={`px-4 py-2 text-sm font-medium rounded-md border ${
+              localSettings.hierarchicalClustering === 'cutout'
+                ? 'bg-blue-100 text-blue-700 border-blue-300'
+                : 'bg-white text-gray-700 border-gray-300'
+            }`}
+          >
+            Cutout
+          </button>
+        </div>
+      </div>
+
+      {/* Filter Speckle (Always Visible) */}
+      <div className="mb-6">
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Filter Speckle
+          <span className="block text-xs text-gray-500">
+            Discard patches smaller than X px in size (1-16).
+          </span>
+        </label>
+        <div className="flex items-center space-x-4">
+          <input
+            type="range"
+            name="filterSpeckle"
+            min="1"
+            max="16"
+            value={localSettings.filterSpeckle}
+            onChange={handleChange}
+            className="w-full accent-blue-500"
+          />
+          <input
+            type="number"
+            name="filterSpeckle"
+            value={localSettings.filterSpeckle}
+            onChange={handleChange}
+            className="w-16 px-2 py-1 border rounded text-gray-700"
+            min="1"
+            max="16"
+          />
+        </div>
+      </div>
+
+      {/* Color Precision and Gradient Step (Only when clusteringMode === 'color') */}
       {localSettings.clusteringMode === 'color' && (
         <>
           <div className="mb-6">
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Hierarchical Clustering
-            </label>
-            <div className="flex space-x-4">
-              <button
-                onClick={() => handleModeChange('hierarchicalClustering', 'stacked')}
-                className={`px-4 py-2 text-sm font-medium rounded-md border ${
-                  localSettings.hierarchicalClustering === 'stacked'
-                    ? 'bg-blue-100 text-blue-700 border-blue-300'
-                    : 'bg-white text-gray-700 border-gray-300'
-                }`}
-              >
-                Stacked
-              </button>
-              <button
-                onClick={() => handleModeChange('hierarchicalClustering', 'cutout')}
-                className={`px-4 py-2 text-sm font-medium rounded-md border ${
-                  localSettings.hierarchicalClustering === 'cutout'
-                    ? 'bg-blue-100 text-blue-700 border-blue-300'
-                    : 'bg-white text-gray-700 border-gray-300'
-                }`}
-              >
-                Cutout
-              </button>
-            </div>
-          </div>
-
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
               Color Precision
               <span className="block text-xs text-gray-500">
-                Controls the precision of color quantization (0-8).
+                Number of significant bits to use in an RGB channel (1-8).
               </span>
             </label>
             <div className="flex items-center space-x-4">
               <input
                 type="range"
                 name="colorPrecision"
-                min="0"
+                min="1"
                 max="8"
                 value={localSettings.colorPrecision}
                 onChange={handleChange}
@@ -117,7 +147,7 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
                 value={localSettings.colorPrecision}
                 onChange={handleChange}
                 className="w-16 px-2 py-1 border rounded text-gray-700"
-                min="0"
+                min="1"
                 max="8"
               />
             </div>
@@ -125,9 +155,9 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
 
           <div className="mb-6">
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Layer Difference
+              Gradient Step
               <span className="block text-xs text-gray-500">
-                Sets the difference between color layers (0-64).
+                Color difference between gradient layers (0-255).
               </span>
             </label>
             <div className="flex items-center space-x-4">
@@ -135,7 +165,7 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
                 type="range"
                 name="layerDifference"
                 min="0"
-                max="64"
+                max="255"
                 value={localSettings.layerDifference}
                 onChange={handleChange}
                 className="w-full accent-blue-500"
@@ -147,7 +177,7 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
                 onChange={handleChange}
                 className="w-16 px-2 py-1 border rounded text-gray-700"
                 min="0"
-                max="64"
+                max="255"
               />
             </div>
           </div>
@@ -168,7 +198,7 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
                 : 'bg-white text-gray-700 border-gray-300'
             }`}
           >
-            None
+            Pixel
           </button>
           <button
             onClick={() => handleModeChange('curveFitting', 'polygon')}
@@ -193,14 +223,14 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
         </div>
       </div>
 
-      {/* Spline Options (shown when curveFitting is 'spline') */}
+      {/* Spline Options (Only when curveFitting === 'spline') */}
       {localSettings.curveFitting === 'spline' && (
         <>
           <div className="mb-6">
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Corner Threshold (°)
               <span className="block text-xs text-gray-500">
-                Angle threshold for corner detection (0-180°).
+                Minimum angle to be considered a corner (0-180°).
               </span>
             </label>
             <div className="flex items-center space-x-4">
@@ -227,18 +257,18 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
 
           <div className="mb-6">
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Length Threshold
+              Segment Length
               <span className="block text-xs text-gray-500">
-                Minimum segment length for splines (0-10).
+                Maximum segment length for subdivision (3.5-10).
               </span>
             </label>
             <div className="flex items-center space-x-4">
               <input
                 type="range"
                 name="lengthThreshold"
-                min="0"
+                min="3.5"
                 max="10"
-                step="0.1"
+                step="0.5"
                 value={localSettings.lengthThreshold}
                 onChange={handleChange}
                 className="w-full accent-blue-500"
@@ -249,9 +279,9 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
                 value={localSettings.lengthThreshold}
                 onChange={handleChange}
                 className="w-16 px-2 py-1 border rounded text-gray-700"
-                min="0"
+                min="3.5"
                 max="10"
-                step="0.1"
+                step="0.5"
               />
             </div>
           </div>
@@ -286,65 +316,6 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
           </div>
         </>
       )}
-
-      {/* Always Visible Settings */}
-      <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Filter Speckle
-          <span className="block text-xs text-gray-500">
-            Removes small noise artifacts (0-10).
-          </span>
-        </label>
-        <div className="flex items-center space-x-4">
-          <input
-            type="range"
-            name="filterSpeckle"
-            min="0"
-            max="10"
-            value={localSettings.filterSpeckle}
-            onChange={handleChange}
-            className="w-full accent-blue-500"
-          />
-          <input
-            type="number"
-            name="filterSpeckle"
-            value={localSettings.filterSpeckle}
-            onChange={handleChange}
-            className="w-16 px-2 py-1 border rounded text-gray-700"
-            min="0"
-            max="10"
-          />
-        </div>
-      </div>
-
-      <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Path Precision
-          <span className="block text-xs text-gray-500">
-            Precision of path simplification (0-10).
-          </span>
-        </label>
-        <div className="flex items-center space-x-4">
-          <input
-            type="range"
-            name="pathPrecision"
-            min="0"
-            max="10"
-            value={localSettings.pathPrecision}
-            onChange={handleChange}
-            className="w-full accent-blue-500"
-          />
-          <input
-            type="number"
-            name="pathPrecision"
-            value={localSettings.pathPrecision}
-            onChange={handleChange}
-            className="w-16 px-2 py-1 border rounded text-gray-700"
-            min="0"
-            max="10"
-          />
-        </div>
-      </div>
 
       {/* Apply Settings Button */}
       <button
