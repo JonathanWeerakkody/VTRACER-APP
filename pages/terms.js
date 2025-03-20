@@ -81,10 +81,6 @@ export default function Terms() {
           <p>
             If you have any questions about these Terms, please contact us at:
           </p>
-          <p>
-            Email: jonkarystudio@gmail.com<br />
-            Phone: 2036872785
-          </p>
         </div>
       </main>
       
