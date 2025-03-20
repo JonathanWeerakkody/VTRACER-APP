@@ -66,11 +66,7 @@ export default function Cookies() {
           
           <h2>Contact Us</h2>
           <p>
-            If you have any questions about our Cookie Policy, please contact us at:
-          </p>
-          <p>
-            Email: jonkarystudio@gmail.com<br />
-            Phone: 2036872785
+            If you have any questions about our Cookie Policy, please contact us through our contact form on the website.
           </p>
         </div>
       </main>
