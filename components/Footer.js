@@ -32,6 +32,7 @@ export default function Footer() {
         <div className="mt-4 text-center text-sm text-gray-500">
           <TranslatedText id="freeService" defaultText="This service is completely free and supported by ad revenue." />
         </div>
+        {/* Personal contact information removed as requested */}
       </div>
     </footer>
   );
