@@ -16,6 +16,7 @@ import ConversionProgress from '../components/ConversionProgress';
 import DownloadPanel from '../components/DownloadPanel';
 import PreviewModal from '../components/PreviewModal';
 import BatchDownloadPanel from '../components/BatchDownloadPanel';
+import ExampleConversions from '../components/ExampleConversions';
 
 
 export default function Home() {
@@ -91,12 +92,40 @@ export default function Home() {
     }
   }, [conversionStatus]);
   
+  // Handle file deletion
+  const handleDeleteFile = useCallback((file) => {
+    // Remove file from state
+    setFiles(prev => prev.filter(f => f.id !== file.id));
+    
+    // If the deleted file was selected, select another file or clear selection
+    if (selectedFile && selectedFile.id === file.id) {
+      const remainingFiles = files.filter(f => f.id !== file.id);
+      if (remainingFiles.length > 0) {
+        setSelectedFile(remainingFiles[0]);
+      } else {
+        setSelectedFile(null);
+      }
+    }
+    
+    // Clean up object URLs
+    if (file.preview) URL.revokeObjectURL(file.preview);
+    if (file.original) URL.revokeObjectURL(file.original);
+    if (file.svg) URL.revokeObjectURL(file.svg);
+    
+    // Remove conversion status
+    setConversionStatus(prev => {
+      const newStatus = {...prev};
+      delete newStatus[file.id];
+      return newStatus;
+    });
+  }, [files, selectedFile]);
+  
   // Handle preview
   const handlePreview = useCallback((file, type) => {
     setPreviewModal({
       isOpen: true,
-      image: type === 'original' ? file.original : file.svg,
-      title: `${file.name} (${type === 'original' ? 'Original' : 'SVG'})`
+      image: file.svg,
+      title: `${file.name} (SVG)`
     });
   }, []);
   
@@ -162,8 +191,16 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       <Head>
-        <title>Vectorise.Me - Free Online Image to SVG Converter</title>
-        <meta name="description" content="Convert your images to scalable vector graphics (SVG) instantly with our free online tool. Real-time preview and customization options." />
+        <title>Vectorise.Me - Best Free Online Image to Vector Converter | PNG to SVG | Vectorizer Tool</title>
+        <meta name="description" content="Transform images to scalable vector graphics instantly with our free online vectorizer. Convert PNG, JPG, and photos to SVG with advanced customization. Best raster to vector converter with real-time preview." />
+        <meta name="keywords" content="vectorize image, image to vector, raster to vector, png to svg, jpg to svg, photo to vector, free vectorizer, vector conversion, svg converter, vectorize online, image vectorization" />
+        <meta property="og:title" content="Vectorise.Me - Free Online Image to Vector Converter" />
+        <meta property="og:description" content="Transform any image to scalable vector graphics (SVG) with our free online vectorizer tool. Best PNG to SVG converter with real-time preview." />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Vectorise.Me - Free Image Vectorizer Tool" />
+        <meta name="twitter:description" content="Convert photos, PNG, JPG to SVG vectors instantly. Free online raster to vector converter with customization options." />
+        <link rel="canonical" href="https://vectorise.me" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       
@@ -178,11 +215,23 @@ export default function Home() {
                 <div className="sm:text-center">
                   <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
                     <span className="block"><TranslatedText id="heroTitle1" defaultText="Transform Images into" /></span>
-                    <span className="block bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"><TranslatedText id="heroTitle2" defaultText="Scalable Vector Graphics" /></span>
+                    <span className="block bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"><TranslatedText id="heroTitle2" defaultText="Stunning Vector Graphics" /></span>
                   </h1>
                   <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl">
-                    <TranslatedText id="heroDescription" defaultText="Convert your images to SVG instantly with our free online tool. Get high-quality vector graphics with real-time customization options." />
+                    <TranslatedText id="heroDescription" defaultText="Convert PNG, JPG, and photos to SVG instantly with our free online vectorizer. Get high-quality vector graphics with real-time customization options." />
                   </p>
+                  <div className="mt-5 sm:mt-8 sm:flex sm:justify-center">
+                    <div className="rounded-md shadow">
+                      <a href="#upload-section" className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">
+                        <TranslatedText id="startConverting" defaultText="Start Converting Now" />
+                      </a>
+                    </div>
+                    <div className="mt-3 sm:mt-0 sm:ml-3">
+                      <a href="#features" className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 md:py-4 md:text-lg md:px-10">
+                        <TranslatedText id="learnMore" defaultText="Learn More" />
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -209,15 +258,13 @@ export default function Home() {
                 selectedFile={selectedFile}
                 onPreview={handlePreview}
                 conversionStatus={conversionStatus}
+                onDelete={handleDeleteFile}
               />
             )}
             
-            {/* Before/After Slider */}
+            {/* Preview Slider */}
             {selectedFile && (
               <div className="mt-8">
-                <h3 className="text-lg font-medium text-gray-700 mb-4">
-                  <TranslatedText id="beforeAfter" defaultText="Before & After Comparison" />
-                </h3>
                 <BeforeAfterSlider 
                   originalImage={selectedFile.original} 
                   svgImage={selectedFile.svg} 
@@ -255,6 +302,9 @@ export default function Home() {
             )}
           </div>
         </div>
+        
+        {/* Example Conversions Section */}
+        <ExampleConversions />
         
         {/* Features Section */}
         <div className="py-12 bg-white">
@@ -355,4 +405,3 @@ export default function Home() {
     </div>
   );
 }
-
