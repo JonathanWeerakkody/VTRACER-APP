@@ -4,6 +4,7 @@ import React, { createContext, useState, useEffect, useContext } from 'react';
 // Define all supported languages
 export const languages = [
   { code: 'en', name: 'English' },
+  { code: 'ar', name: 'العربية (Arabic)' },
   { code: 'de', name: 'Deutsch (German)' },
   { code: 'es', name: 'Español (Spanish)' },
   { code: 'fr', name: 'Français (French)' },
