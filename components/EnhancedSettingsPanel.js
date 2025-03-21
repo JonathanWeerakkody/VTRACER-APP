@@ -42,70 +42,13 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
 
   return (
     <div className="p-4">
-      {/* Main settings section */}
-      <div className="mb-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Settings</h2>
-        
-        {/* Clustering Mode - Changed "B/W" to "Black & White" */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Clustering Mode
-          </label>
-          <div className="flex space-x-4">
-            <button
-              onClick={() => handleModeChange('clusteringMode', 'binary')}
-              className={`px-4 py-2 text-sm font-medium rounded-md border ${
-                localSettings.clusteringMode === 'binary'
-                  ? 'bg-blue-100 text-blue-700 border-blue-300'
-                  : 'bg-white text-gray-700 border-gray-300'
-              }`}
-            >
-              Black & White
-            </button>
-            <button
-              onClick={() => handleModeChange('clusteringMode', 'color')}
-              className={`px-4 py-2 text-sm font-medium rounded-md border ${
-                localSettings.clusteringMode === 'color'
-                  ? 'bg-blue-100 text-blue-700 border-blue-300'
-                  : 'bg-white text-gray-700 border-gray-300'
-              }`}
-            >
-              Color
-            </button>
-          </div>
-        </div>
+      {/*
+        REMOVED the top-level "Settings" heading and 
+        MOVED the "Clustering Mode" & "Hierarchical Clustering" sections 
+        INTO the advanced settings dropdown below.
+      */}
 
-        {/* Hierarchical Clustering */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Hierarchical Clustering
-          </label>
-          <div className="flex space-x-4">
-            <button
-              onClick={() => handleModeChange('hierarchicalClustering', 'stacked')}
-              className={`px-4 py-2 text-sm font-medium rounded-md border ${
-                localSettings.hierarchicalClustering === 'stacked'
-                  ? 'bg-blue-100 text-blue-700 border-blue-300'
-                  : 'bg-white text-gray-700 border-gray-300'
-              }`}
-            >
-              Stacked
-            </button>
-            <button
-              onClick={() => handleModeChange('hierarchicalClustering', 'cutout')}
-              className={`px-4 py-2 text-sm font-medium rounded-md border ${
-                localSettings.hierarchicalClustering === 'cutout'
-                  ? 'bg-blue-100 text-blue-700 border-blue-300'
-                  : 'bg-white text-gray-700 border-gray-300'
-              }`}
-            >
-              Cutout
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Advanced Settings Box with visible dropdown */}
+      {/* Advanced Settings Box (now holds everything) */}
       <div className="border border-gray-300 rounded-lg shadow-sm mb-6">
         <button 
           onClick={toggleAdvancedSettings}
@@ -123,7 +66,7 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 002.37-1.066c.608-.996.07-2.296-1.065-2.572z"
               />
               <path
                 strokeLinecap="round"
@@ -141,12 +84,73 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
             viewBox="0 0 24 24" 
             xmlns="http://www.w3.org/2000/svg"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"/>
           </svg>
         </button>
         
         {isAdvancedOpen && (
           <div className="bg-blue-50 p-4 rounded-b-lg border-t border-gray-300">
+            
+            {/* ======== MOVED from top-level into Advanced ======== */}
+            {/* Clustering Mode */}
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Clustering Mode
+              </label>
+              <div className="flex space-x-4">
+                <button
+                  onClick={() => handleModeChange('clusteringMode', 'binary')}
+                  className={`px-4 py-2 text-sm font-medium rounded-md border ${
+                    localSettings.clusteringMode === 'binary'
+                      ? 'bg-blue-100 text-blue-700 border-blue-300'
+                      : 'bg-white text-gray-700 border-gray-300'
+                  }`}
+                >
+                  Black &amp; White
+                </button>
+                <button
+                  onClick={() => handleModeChange('clusteringMode', 'color')}
+                  className={`px-4 py-2 text-sm font-medium rounded-md border ${
+                    localSettings.clusteringMode === 'color'
+                      ? 'bg-blue-100 text-blue-700 border-blue-300'
+                      : 'bg-white text-gray-700 border-gray-300'
+                  }`}
+                >
+                  Color
+                </button>
+              </div>
+            </div>
+
+            {/* Hierarchical Clustering */}
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Hierarchical Clustering
+              </label>
+              <div className="flex space-x-4">
+                <button
+                  onClick={() => handleModeChange('hierarchicalClustering', 'stacked')}
+                  className={`px-4 py-2 text-sm font-medium rounded-md border ${
+                    localSettings.hierarchicalClustering === 'stacked'
+                      ? 'bg-blue-100 text-blue-700 border-blue-300'
+                      : 'bg-white text-gray-700 border-gray-300'
+                  }`}
+                >
+                  Stacked
+                </button>
+                <button
+                  onClick={() => handleModeChange('hierarchicalClustering', 'cutout')}
+                  className={`px-4 py-2 text-sm font-medium rounded-md border ${
+                    localSettings.hierarchicalClustering === 'cutout'
+                      ? 'bg-blue-100 text-blue-700 border-blue-300'
+                      : 'bg-white text-gray-700 border-gray-300'
+                  }`}
+                >
+                  Cutout
+                </button>
+              </div>
+            </div>
+            {/* ======== END MOVED SECTION ======== */}
+
             {/* Filter Speckle */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -177,14 +181,14 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
               </div>
             </div>
 
-            {/* Color Precision and Gradient Step (Visible when clusteringMode is 'color') */}
+            {/* Color Precision & Gradient Step (only if clusteringMode = 'color') */}
             {localSettings.clusteringMode === 'color' && (
               <>
                 <div className="mb-6">
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Color Precision
                     <span className="block text-xs text-gray-500">
-                      Number of significant bits to use in an RGB channel (1-8).
+                      Number of significant bits to use (1-8).
                     </span>
                   </label>
                   <div className="flex items-center space-x-4">
@@ -279,7 +283,7 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
               </div>
             </div>
 
-            {/* Spline Options (Visible when curveFitting is 'spline') */}
+            {/* Spline Options */}
             {localSettings.curveFitting === 'spline' && (
               <>
                 <div className="mb-6">
@@ -370,19 +374,17 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
                 </div>
               </>
             )}
+
+            {/* Moved the Apply Settings button here, full width */}
+            <button
+              type="button"
+              onClick={applySettings}
+              className="w-full px-4 py-2 mt-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-md hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Apply Settings
+            </button>
           </div>
         )}
-      </div>
-
-      {/* Apply Settings Button */}
-      <div className="flex justify-end">
-        <button
-          type="button"
-          onClick={applySettings}
-          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        >
-          Apply Settings
-        </button>
       </div>
     </div>
   );
