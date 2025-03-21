@@ -58,13 +58,37 @@ export default function EnhancedUploadArea({ onUpload, isUploading, uploadProgre
   return (
     <div 
       {...getRootProps()} 
-      className={`w-full p-12 border-2 border-dashed rounded-lg text-center cursor-pointer transition-colors
-        ${isDragActive ? 'border-indigo-500 bg-indigo-50' : 'border-gray-300 hover:border-indigo-300'}
+      className={`upload-area w-full p-12 rounded-lg text-center cursor-pointer transition-all duration-300
+        ${isDragActive ? 'drag-active' : ''}
         ${isUploading ? 'opacity-75 pointer-events-none' : ''}
       `}
     >
       <input {...getInputProps()} />
-      <div className="flex flex-col items-center justify-center">
+      
+      {/* Floating animated icons */}
+      <div className="floating-icon floating-icon-1">
+        <svg className="w-10 h-10 text-purple-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd"></path>
+        </svg>
+      </div>
+      <div className="floating-icon floating-icon-2">
+        <svg className="w-8 h-8 text-indigo-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H5.5z"></path>
+          <path d="M9 13h2v4H9v-4z"></path>
+        </svg>
+      </div>
+      <div className="floating-icon floating-icon-3">
+        <svg className="w-12 h-12 text-purple-200" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5.5 16a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 16h-8z"></path>
+        </svg>
+      </div>
+      <div className="floating-icon floating-icon-4">
+        <svg className="w-9 h-9 text-indigo-200" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd"></path>
+        </svg>
+      </div>
+      
+      <div className="flex flex-col items-center justify-center relative z-10">
         {isUploading ? (
           <div className="w-full">
             <svg 
@@ -90,7 +114,7 @@ export default function EnhancedUploadArea({ onUpload, isUploading, uploadProgre
         ) : (
           <>
             <svg 
-              className="w-16 h-16 mb-4 text-gray-400" 
+              className="w-16 h-16 mb-4 text-purple-500 transition-all duration-300 transform hover:scale-110" 
               fill="none" 
               stroke="currentColor" 
               viewBox="0 0 24 24" 
@@ -103,7 +127,7 @@ export default function EnhancedUploadArea({ onUpload, isUploading, uploadProgre
                 d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
               />
             </svg>
-            <p className="text-lg font-medium">
+            <p className="text-lg font-medium text-gray-700">
               {isDragActive ? 
                 <TranslatedText id="dropImagesHere" defaultText="Drop your images here" /> : 
                 <TranslatedText id="dragDropImages" defaultText="Drag & drop your images here" />
@@ -113,15 +137,20 @@ export default function EnhancedUploadArea({ onUpload, isUploading, uploadProgre
               <TranslatedText id="orClickToBrowse" defaultText="or click to browse" />
             </p>
             {clipboardSupported && (
-              <p className="mt-2 text-sm text-indigo-600">
-                <TranslatedText id="pasteFromClipboard" defaultText="You can also paste images from clipboard (Ctrl+V)" />
-              </p>
+              <div className="mt-2 text-sm text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full inline-block">
+                <span className="font-mono bg-white px-1 rounded mr-1">Ctrl+V</span>
+                <TranslatedText id="pasteFromClipboard" defaultText="to paste from clipboard" />
+              </div>
             )}
-            <p className="mt-4 text-xs text-gray-400">
-              <TranslatedText id="fileSupport" defaultText="Supports PNG, JPG, GIF, BMP, TIFF, WEBP (max 10MB each)" />
-            </p>
-            <p className="mt-1 text-xs text-gray-400">
-              <TranslatedText id="uploadLimit" defaultText="Upload up to 10 images at once" />
+            <div className="mt-4 flex flex-wrap justify-center gap-2">
+              <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded">PNG</span>
+              <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded">JPG</span>
+              <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded">GIF</span>
+              <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded">BMP</span>
+              <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded">WEBP</span>
+            </div>
+            <p className="mt-3 text-xs text-gray-400">
+              <TranslatedText id="uploadLimit" defaultText="Upload up to 10 images at once (max 10MB each)" />
             </p>
           </>
         )}
