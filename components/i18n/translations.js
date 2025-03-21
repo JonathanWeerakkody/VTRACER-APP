@@ -1,4 +1,22 @@
 // components/i18n/translations.js
+export const getTranslation = (language, id, defaultText) => {
+  // If the language exists in our translations
+  if (translations[language]) {
+    // If the specific translation ID exists for this language
+    if (translations[language][id]) {
+      return translations[language][id];
+    }
+    
+    // If the language exists but the specific ID doesn't, check English
+    if (translations['en'][id]) {
+      return translations['en'][id];
+    }
+  }
+  
+  // Fallback to English or the provided default text
+  return translations['en'][id] || defaultText;
+};
+
 export const translations = {
   // English translations
   en: {
@@ -9,9 +27,9 @@ export const translations = {
     
     // Hero Section
     heroTitle1: "Transform Images into",
-    heroTitle2: "Scalable Vector Graphics",
+    heroTitle2: "Stunning Vector Graphics",
     heroTitle3: "100% Free SVG Conversion",
-    heroDescription: "Convert your images to SVG instantly with our completely free online tool. No registration required, no fees, no limits.",
+    heroDescription: "Convert PNG, JPG, and photos to SVG instantly with our free online vectorizer. Get high-quality vector graphics with real-time customization options.",
     startConverting: "Start Converting",
     viewExamples: "View Examples",
     
@@ -77,6 +95,7 @@ export const translations = {
     applyToAll: "Apply to All Images",
     
     // Preview
+    preview: "Preview",
     previewNote: "This is a preview based on your current settings. The final SVG may vary slightly.",
     close: "Close",
     
@@ -120,7 +139,139 @@ export const translations = {
     loading: "Loading...",
     processing: "Processing...",
     converting: "Converting image to SVG...",
-    beforeAfter: "Before & After Comparison"
+    beforeAfter: "Before & After Comparison",
+    delete: "Delete",
+    dragToCompare: "Drag to compare",
+    clickToZoom: "Click to zoom",
+    pending: "Pending"
+  },
+  
+  // Arabic translations
+  ar: {
+    // Navigation
+    home: "الرئيسية",
+    contact: "اتصل بنا",
+    editor: "المحرر",
+    
+    // Hero Section
+    heroTitle1: "حوّل الصور إلى",
+    heroTitle2: "رسومات متجهية قابلة للتحجيم",
+    heroTitle3: "تحويل SVG مجاني 100%",
+    heroDescription: "حوّل صورك إلى SVG فورًا باستخدام أداتنا المجانية عبر الإنترنت. لا تسجيل مطلوب، لا رسوم، لا حدود.",
+    startConverting: "ابدأ التحويل",
+    viewExamples: "عرض الأمثلة",
+    
+    // Features Section
+    features: "المميزات",
+    featuresTitle: "كل ما تحتاجه للحصول على SVG مثالي",
+    featuresDescription: "توفر أداة التحويل القوية لدينا تحكمًا كاملاً في الرسومات المتجهية الخاصة بك.",
+    instantConversion: "تحويل فوري",
+    instantConversionDesc: "قم بتحميل صورتك واحصل على معاينة SVG فورًا. لا انتظار، لا تأخير في المعالجة.",
+    realTimeCustomization: "تخصيص في الوقت الفعلي",
+    realTimeCustomizationDesc: "اضبط الإعدادات وشاهد التغييرات في الوقت الفعلي. عدّل SVG الخاص بك للكمال.",
+    highQualityResults: "نتائج عالية الجودة",
+    highQualityResultsDesc: "احصل على ملفات SVG نظيفة ومحسنة تتناسب بشكل مثالي مع أي حالة استخدام.",
+    
+    // Examples Section
+    examples: "أمثلة",
+    examplesTitle: "شاهد التحويل",
+    examplesDescription: "تحقق من أمثلة قبل وبعد لتحويل SVG لدينا.",
+    original: "الأصلي",
+    svg: "SVG",
+    logoConversion: "تحويل الشعار",
+    logoConversionDesc: "تحويل الشعار النظيف بوضع الشكل",
+    photoConversion: "تحويل الصورة إلى متجه",
+    photoConversionDesc: "صورة مفصلة مع الحفاظ على الألوان",
+    sketchConversion: "رسم أبيض وأسود",
+    sketchConversionDesc: "رسم بسيط بخطوط نظيفة",
+    
+    // Upload Area
+    dragDropImages: "اسحب وأفلت صورك هنا",
+    dropImagesHere: "أفلت صورك هنا",
+    orClickToBrowse: "أو انقر للتصفح",
+    fileSupport: "يدعم PNG، JPG، GIF، BMP، TIFF، WEBP (بحد أقصى 10 ميجابايت لكل منها)",
+    uploadLimit: "قم بتحميل ما يصل إلى 10 صور في وقت واحد",
+    uploading: "جاري التحميل...",
+    complete: "اكتمل",
+    
+    // Settings Panel
+    settings: "الإعدادات",
+    outputMode: "وضع الإخراج",
+    bwMode: "أبيض وأسود",
+    grayscaleMode: "تدرج رمادي",
+    colorMode: "ملون",
+    layerMode: "وضع الطبقة",
+    stacked: "متراكم",
+    cutout: "مقطوع",
+    threshold: "العتبة",
+    grayLevels: "عدد مستويات الرمادي",
+    colorQuantization: "عدد الألوان",
+    colorPrecision: "دقة الألوان",
+    gradientStep: "خطوة التدرج",
+    filterSpeckle: "تصفية البقع",
+    pathSimplification: "تبسيط المسار",
+    advancedSettings: "إعدادات متقدمة",
+    curveFitting: "تناسب المنحنى",
+    pixelMode: "بكسل",
+    polygonMode: "مضلع",
+    splineMode: "منحنى",
+    cornerThreshold: "عتبة الزاوية",
+    segmentLength: "طول القطعة",
+    spliceThreshold: "عتبة الربط",
+    strokeWidthDetection: "اكتشاف عرض الخط",
+    backgroundTransparency: "شفافية الخلفية",
+    applyToAll: "تطبيق على جميع الصور",
+    
+    // Preview
+    preview: "معاينة",
+    previewNote: "هذه معاينة بناءً على إعداداتك الحالية. قد يختلف SVG النهائي قليلاً.",
+    close: "إغلاق",
+    
+    // Batch Operations
+    batchOperations: "عمليات المجموعة",
+    filesReadyStatus: "0 من 0 ملفات جاهزة",
+    converting: "جاري التحويل...",
+    convertAll: "تحويل الكل",
+    downloadAllZip: "تنزيل الكل (.zip)",
+    
+    // Download Panel
+    download: "تنزيل",
+    downloadSVG: "تنزيل SVG",
+    downloadPNG: "تنزيل PNG",
+    fileSize: "حجم الملف",
+    
+    // Footer
+    product: "المنتج",
+    support: "الدعم",
+    company: "الشركة",
+    legal: "قانوني",
+    about: "حول",
+    privacy: "سياسة الخصوصية",
+    cookies: "سياسة ملفات تعريف الارتباط",
+    terms: "شروط الخدمة",
+    faq: "الأسئلة الشائعة",
+    copyright: "جميع الحقوق محفوظة.",
+    freeService: "هذه الخدمة مجانية تمامًا ومدعومة بعائدات الإعلانات.",
+    
+    // Contact Form
+    contactUs: "اتصل بنا",
+    contactDescription: "هل لديك أسئلة أو ملاحظات؟ نود أن نسمع منك.",
+    name: "الاسم",
+    email: "البريد الإلكتروني",
+    subject: "الموضوع",
+    message: "الرسالة",
+    send: "إرسال الرسالة",
+    messageSent: "تم إرسال رسالتك. شكرًا لك!",
+    
+    // Misc
+    loading: "جاري التحميل...",
+    processing: "جاري المعالجة...",
+    converting: "جاري تحويل الصورة إلى SVG...",
+    beforeAfter: "مقارنة قبل وبعد",
+    delete: "حذف",
+    dragToCompare: "اسحب للمقارنة",
+    clickToZoom: "انقر للتكبير",
+    pending: "قيد الانتظار"
   },
   
   // German translations
@@ -200,6 +351,7 @@ export const translations = {
     applyToAll: "Auf alle Bilder anwenden",
     
     // Preview
+    preview: "Vorschau",
     previewNote: "Dies ist eine Vorschau basierend auf Ihren aktuellen Einstellungen. Das endgültige SVG kann leicht abweichen.",
     close: "Schließen",
     
@@ -210,9 +362,30 @@ export const translations = {
     convertAll: "Alle konvertieren",
     downloadAllZip: "Alle herunterladen (.zip)",
     
+    // Download Panel
+    download: "Herunterladen",
+    downloadSVG: "SVG herunterladen",
+    downloadPNG: "PNG herunterladen",
+    fileSize: "Dateigröße",
+    
     // Footer
+    product: "Produkt",
+    support: "Support",
+    company: "Unternehmen",
+    legal: "Rechtliches",
+    about: "Über uns",
+    privacy: "Datenschutzrichtlinie",
+    cookies: "Cookie-Richtlinie",
+    terms: "Nutzungsbedingungen",
+    faq: "FAQ",
     copyright: "Alle Rechte vorbehalten.",
-    freeService: "Dieser Service ist völlig kostenlos und wird durch Werbeeinnahmen unterstützt."
+    freeService: "Dieser Service ist völlig kostenlos und wird durch Werbeeinnahmen unterstützt.",
+    
+    // Misc
+    delete: "Löschen",
+    dragToCompare: "Ziehen zum Vergleichen",
+    clickToZoom: "Klicken zum Zoomen",
+    pending: "Ausstehend"
   },
   
   // Spanish translations
@@ -229,6 +402,15 @@ export const translations = {
     heroDescription: "Convierta sus imágenes a SVG al instante con nuestra herramienta en línea completamente gratuita. Sin registro, sin tarifas, sin límites.",
     startConverting: "Comenzar a convertir",
     viewExamples: "Ver ejemplos",
+    
+    // Preview
+    preview: "Vista previa",
+    
+    // Misc
+    delete: "Eliminar",
+    dragToCompare: "Arrastrar para comparar",
+    clickToZoom: "Clic para ampliar",
+    pending: "Pendiente",
     
     // Footer
     copyright: "Todos los derechos reservados.",
@@ -250,237 +432,20 @@ export const translations = {
     startConverting: "Commencer la conversion",
     viewExamples: "Voir des exemples",
     
+    // Preview
+    preview: "Aperçu",
+    
+    // Misc
+    delete: "Supprimer",
+    dragToCompare: "Glisser pour comparer",
+    clickToZoom: "Cliquer pour zoomer",
+    pending: "En attente",
+    
     // Footer
     copyright: "Tous droits réservés.",
     freeService: "Ce service est entièrement gratuit et financé par la publicité."
-  },
-  
-  // Hindi translations
-  hi: {
-    // Navigation
-    home: "होम",
-    contact: "संपर्क",
-    editor: "संपादक",
-    
-    // Hero Section
-    heroTitle1: "छवियों को बदलें",
-    heroTitle2: "स्केलेबल वेक्टर ग्राफिक्स में",
-    heroTitle3: "100% मुफ्त SVG रूपांतरण",
-    
-    // Footer
-    copyright: "सर्वाधिकार सुरक्षित।",
-    freeService: "यह सेवा पूरी तरह से मुफ्त है और विज्ञापन राजस्व द्वारा समर्थित है।"
-  },
-  
-  // Indonesian translations
-  id: {
-    // Navigation
-    home: "Beranda",
-    contact: "Kontak",
-    editor: "Editor",
-    
-    // Hero Section
-    heroTitle1: "Ubah Gambar menjadi",
-    heroTitle2: "Grafik Vektor yang Dapat Diskalakan",
-    heroTitle3: "Konversi SVG 100% Gratis",
-    
-    // Footer
-    copyright: "Seluruh hak cipta.",
-    freeService: "Layanan ini sepenuhnya gratis dan didukung oleh pendapatan iklan."
-  },
-  
-  // Italian translations
-  it: {
-    // Navigation
-    home: "Home",
-    contact: "Contatto",
-    editor: "Editor",
-    
-    // Hero Section
-    heroTitle1: "Trasforma le immagini in",
-    heroTitle2: "Grafica vettoriale scalabile",
-    heroTitle3: "Conversione SVG 100% gratuita",
-    
-    // Footer
-    copyright: "Tutti i diritti riservati.",
-    freeService: "Questo servizio è completamente gratuito e supportato dalle entrate pubblicitarie."
-  },
-  
-  // Japanese translations
-  ja: {
-    // Navigation
-    home: "ホーム",
-    contact: "お問い合わせ",
-    editor: "エディター",
-    
-    // Hero Section
-    heroTitle1: "画像を変換",
-    heroTitle2: "スケーラブルベクターグラフィックスに",
-    heroTitle3: "100%無料SVG変換",
-    
-    // Footer
-    copyright: "全著作権所有。",
-    freeService: "このサービスは完全に無料で、広告収入によってサポートされています。"
-  },
-  
-  // Korean translations
-  ko: {
-    // Navigation
-    home: "홈",
-    contact: "연락처",
-    editor: "편집기",
-    
-    // Hero Section
-    heroTitle1: "이미지를 변환",
-    heroTitle2: "확장 가능한 벡터 그래픽으로",
-    heroTitle3: "100% 무료 SVG 변환",
-    
-    // Footer
-    copyright: "모든 권리 보유.",
-    freeService: "이 서비스는 완전히 무료이며 광고 수익으로 지원됩니다."
-  },
-  
-  // Polish translations
-  pl: {
-    // Navigation
-    home: "Strona główna",
-    contact: "Kontakt",
-    editor: "Edytor",
-    
-    // Hero Section
-    heroTitle1: "Przekształć obrazy w",
-    heroTitle2: "Skalowalne grafiki wektorowe",
-    heroTitle3: "Konwersja SVG w 100% za darmo",
-    
-    // Footer
-    copyright: "Wszelkie prawa zastrzeżone.",
-    freeService: "Ta usługa jest całkowicie bezpłatna i wspierana przez przychody z reklam."
-  },
-  
-  // Portuguese translations
-  pt: {
-    // Navigation
-    home: "Início",
-    contact: "Contato",
-    editor: "Editor",
-    
-    // Hero Section
-    heroTitle1: "Transforme imagens em",
-    heroTitle2: "Gráficos vetoriais escaláveis",
-    heroTitle3: "Conversão SVG 100% gratuita",
-    
-    // Footer
-    copyright: "Todos os direitos reservados.",
-    freeService: "Este serviço é completamente gratuito e suportado por receitas de publicidade."
-  },
-  
-  // Russian translations
-  ru: {
-    // Navigation
-    home: "Главная",
-    contact: "Контакты",
-    editor: "Редактор",
-    
-    // Hero Section
-    heroTitle1: "Преобразуйте изображения в",
-    heroTitle2: "Масштабируемую векторную графику",
-    heroTitle3: "100% бесплатная конвертация SVG",
-    
-    // Footer
-    copyright: "Все права защищены.",
-    freeService: "Этот сервис полностью бесплатный и поддерживается за счет рекламных доходов."
-  },
-  
-  // Thai translations
-  th: {
-    // Navigation
-    home: "หน้าแรก",
-    contact: "ติดต่อ",
-    editor: "เครื่องมือแก้ไข",
-    
-    // Hero Section
-    heroTitle1: "แปลงรูปภาพเป็น",
-    heroTitle2: "กราฟิกเวกเตอร์ที่ปรับขนาดได้",
-    heroTitle3: "การแปลง SVG ฟรี 100%",
-    
-    // Footer
-    copyright: "สงวนลิขสิทธิ์ทั้งหมด",
-    freeService: "บริการนี้ฟรีอย่างสมบูรณ์และได้รับการสนับสนุนจากรายได้จากโฆษณา"
-  },
-  
-  // Turkish translations
-  tr: {
-    // Navigation
-    home: "Ana Sayfa",
-    contact: "İletişim",
-    editor: "Düzenleyici",
-    
-    // Hero Section
-    heroTitle1: "Görüntüleri dönüştürün",
-    heroTitle2: "Ölçeklenebilir Vektör Grafiklerine",
-    heroTitle3: "%100 Ücretsiz SVG Dönüşümü",
-    
-    // Footer
-    copyright: "Tüm hakları saklıdır.",
-    freeService: "Bu hizmet tamamen ücretsizdir ve reklam gelirleriyle desteklenmektedir."
-  },
-  
-  // Vietnamese translations
-  vi: {
-    // Navigation
-    home: "Trang chủ",
-    contact: "Liên hệ",
-    editor: "Trình soạn thảo",
-    
-    // Hero Section
-    heroTitle1: "Chuyển đổi hình ảnh thành",
-    heroTitle2: "Đồ họa vector có thể mở rộng",
-    heroTitle3: "Chuyển đổi SVG miễn phí 100%",
-    
-    // Footer
-    copyright: "Đã đăng ký Bản quyền.",
-    freeService: "Dịch vụ này hoàn toàn miễn phí và được hỗ trợ bởi doanh thu quảng cáo."
-  },
-  
-  // Simplified Chinese translations
-  zh: {
-    // Navigation
-    home: "首页",
-    contact: "联系我们",
-    editor: "编辑器",
-    
-    // Hero Section
-    heroTitle1: "将图像转换为",
-    heroTitle2: "可缩放矢量图形",
-    heroTitle3: "100% 免费 SVG 转换",
-    
-    // Footer
-    copyright: "版权所有。",
-    freeService: "此服务完全免费，由广告收入支持。"
-  },
-  
-  // Traditional Chinese translations
-  zh_TW: {
-    // Navigation
-    home: "首頁",
-    contact: "聯繫我們",
-    editor: "編輯器",
-    
-    // Hero Section
-    heroTitle1: "將圖像轉換為",
-    heroTitle2: "可縮放矢量圖形",
-    heroTitle3: "100% 免費 SVG 轉換",
-    
-    // Footer
-    copyright: "版權所有。",
-    freeService: "此服務完全免費，由廣告收入支持。"
   }
+  
+  // Add other languages with similar structure
+  // ...
 };
-
-// Function to get translation
-export function getTranslation(language, key, defaultValue = key) {
-  if (!translations[language]) {
-    return translations.en[key] || defaultValue;
-  }
-  return translations[language][key] || translations.en[key] || defaultValue;
-}
