@@ -59,33 +59,27 @@ export default function EnhancedUploadArea({ onUpload, isUploading, uploadProgre
     <div 
       {...getRootProps()} 
       className={`upload-area w-full p-12 rounded-lg text-center cursor-pointer transition-all duration-300
-        ${isDragActive ? 'drag-active' : ''}
+        ${isDragActive ? 'drag-active bg-purple-50 border-purple-300' : 'border-dashed border-2 border-gray-300 hover:border-purple-400 hover:bg-purple-50'}
         ${isUploading ? 'opacity-75 pointer-events-none' : ''}
       `}
     >
       <input {...getInputProps()} />
       
-      {/* Floating animated icons */}
-      <div className="floating-icon floating-icon-1">
-        <svg className="w-10 h-10 text-purple-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd"></path>
-        </svg>
+      {/* Floating animated file format icons */}
+      <div className="floating-icon floating-icon-png absolute">
+        <div className="text-xl font-bold text-purple-500 bg-white rounded-lg shadow-lg px-3 py-1">PNG</div>
       </div>
-      <div className="floating-icon floating-icon-2">
-        <svg className="w-8 h-8 text-indigo-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H5.5z"></path>
-          <path d="M9 13h2v4H9v-4z"></path>
-        </svg>
+      <div className="floating-icon floating-icon-jpg absolute">
+        <div className="text-xl font-bold text-indigo-500 bg-white rounded-lg shadow-lg px-3 py-1">JPG</div>
       </div>
-      <div className="floating-icon floating-icon-3">
-        <svg className="w-12 h-12 text-purple-200" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path d="M5.5 16a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 16h-8z"></path>
-        </svg>
+      <div className="floating-icon floating-icon-gif absolute">
+        <div className="text-xl font-bold text-pink-500 bg-white rounded-lg shadow-lg px-3 py-1">GIF</div>
       </div>
-      <div className="floating-icon floating-icon-4">
-        <svg className="w-9 h-9 text-indigo-200" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd"></path>
-        </svg>
+      <div className="floating-icon floating-icon-bmp absolute">
+        <div className="text-xl font-bold text-blue-500 bg-white rounded-lg shadow-lg px-3 py-1">BMP</div>
+      </div>
+      <div className="floating-icon floating-icon-webp absolute">
+        <div className="text-xl font-bold text-green-500 bg-white rounded-lg shadow-lg px-3 py-1">WEBP</div>
       </div>
       
       <div className="flex flex-col items-center justify-center relative z-10">
@@ -142,19 +136,107 @@ export default function EnhancedUploadArea({ onUpload, isUploading, uploadProgre
                 <TranslatedText id="pasteFromClipboard" defaultText="to paste from clipboard" />
               </div>
             )}
-            <div className="mt-4 flex flex-wrap justify-center gap-2">
-              <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded">PNG</span>
-              <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded">JPG</span>
-              <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded">GIF</span>
-              <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded">BMP</span>
-              <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded">WEBP</span>
-            </div>
-            <p className="mt-3 text-xs text-gray-400">
-              <TranslatedText id="uploadLimit" defaultText="Upload up to 10 images at once (max 10MB each)" />
+            <p className="mt-4 text-sm text-gray-600">
+              <TranslatedText id="fileSupport" defaultText="Supports PNG, JPG, GIF, BMP, WEBP (max 10MB per file)" />
+            </p>
+            <p className="mt-2 text-xs text-gray-400">
+              <TranslatedText id="uploadLimit" defaultText="Upload up to 10 images at once" />
             </p>
           </>
         )}
       </div>
+      
+      {/* Add CSS for floating icons animation */}
+      <style jsx>{`
+        .upload-area {
+          position: relative;
+          overflow: hidden;
+          min-height: 300px;
+          transition: all 0.3s ease;
+        }
+        
+        .upload-area:hover {
+          box-shadow: 0 0 15px rgba(124, 58, 237, 0.3);
+        }
+        
+        .floating-icon {
+          position: absolute;
+          animation-duration: 8s;
+          animation-iteration-count: infinite;
+          animation-timing-function: ease-in-out;
+          z-index: 1;
+        }
+        
+        .floating-icon-png {
+          top: 20%;
+          left: 15%;
+          animation-name: float-1;
+        }
+        
+        .floating-icon-jpg {
+          top: 30%;
+          right: 20%;
+          animation-name: float-2;
+        }
+        
+        .floating-icon-gif {
+          bottom: 25%;
+          left: 25%;
+          animation-name: float-3;
+        }
+        
+        .floating-icon-bmp {
+          top: 50%;
+          right: 15%;
+          animation-name: float-4;
+        }
+        
+        .floating-icon-webp {
+          bottom: 20%;
+          right: 30%;
+          animation-name: float-5;
+        }
+        
+        @keyframes float-1 {
+          0%, 100% { transform: translate(0, 0) rotate(0deg); }
+          25% { transform: translate(15px, 15px) rotate(5deg); }
+          50% { transform: translate(0, 25px) rotate(0deg); }
+          75% { transform: translate(-15px, 10px) rotate(-5deg); }
+        }
+        
+        @keyframes float-2 {
+          0%, 100% { transform: translate(0, 0) rotate(0deg); }
+          25% { transform: translate(-15px, 10px) rotate(-5deg); }
+          50% { transform: translate(0, 20px) rotate(0deg); }
+          75% { transform: translate(15px, 5px) rotate(5deg); }
+        }
+        
+        @keyframes float-3 {
+          0%, 100% { transform: translate(0, 0) rotate(0deg); }
+          25% { transform: translate(10px, -15px) rotate(3deg); }
+          50% { transform: translate(20px, 0) rotate(0deg); }
+          75% { transform: translate(5px, 15px) rotate(-3deg); }
+        }
+        
+        @keyframes float-4 {
+          0%, 100% { transform: translate(0, 0) rotate(0deg); }
+          25% { transform: translate(-10px, -10px) rotate(-3deg); }
+          50% { transform: translate(-15px, 5px) rotate(0deg); }
+          75% { transform: translate(-5px, -15px) rotate(3deg); }
+        }
+        
+        @keyframes float-5 {
+          0%, 100% { transform: translate(0, 0) rotate(0deg); }
+          25% { transform: translate(15px, -5px) rotate(5deg); }
+          50% { transform: translate(5px, -15px) rotate(0deg); }
+          75% { transform: translate(-10px, -10px) rotate(-5deg); }
+        }
+        
+        .drag-active {
+          border: 2px dashed #8b5cf6 !important;
+          box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+      `}</style>
     </div>
   );
 }
