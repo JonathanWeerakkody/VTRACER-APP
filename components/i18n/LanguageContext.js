@@ -4,23 +4,23 @@ import React, { createContext, useState, useEffect, useContext } from 'react';
 // Define all supported languages
 export const languages = [
   { code: 'en', name: 'English' },
-  { code: 'ar', name: 'العربية (Arabic)' },
-  { code: 'de', name: 'Deutsch (German)' },
-  { code: 'es', name: 'Español (Spanish)' },
-  { code: 'fr', name: 'Français (French)' },
-  { code: 'hi', name: 'हिन्दी (Hindi)' },
-  { code: 'id', name: 'Indonesia (Indonesian)' },
-  { code: 'it', name: 'Italiano (Italian)' },
-  { code: 'ja', name: '日本語 (Japanese)' },
-  { code: 'ko', name: '한국어 (Korean)' },
-  { code: 'pl', name: 'Polski (Polish)' },
-  { code: 'pt', name: 'Português (Portuguese)' },
-  { code: 'ru', name: 'Русский (Russian)' },
-  { code: 'th', name: 'ไทย (Thai)' },
-  { code: 'tr', name: 'Türkçe (Turkish)' },
-  { code: 'vi', name: 'Tiếng Việt (Vietnamese)' },
-  { code: 'zh-CN', name: '简体中文 (Chinese)' },
-  { code: 'zh-TW', name: '繁體中文 (Chinese)' },
+  { code: 'de', name: 'Deutsch' },
+  { code: 'es', name: 'Español' },
+  { code: 'fr', name: 'Français' },
+  { code: 'hi', name: 'हिन्दी' },
+  { code: 'id', name: 'Indonesia' },
+  { code: 'it', name: 'Italiano' },
+  { code: 'ja', name: '日本語' },
+  { code: 'ko', name: '한국어' },
+  { code: 'pl', name: 'Polski' },
+  { code: 'pt', name: 'Português' },
+  { code: 'ru', name: 'Русский' },
+  { code: 'th', name: 'ไทย' },
+  { code: 'tr', name: 'Türkçe' },
+  { code: 'vi', name: 'Tiếng Việt' },
+  { code: 'zh', name: '简体中文' },
+  { code: 'zh-tw', name: '繁體中文' },
+  { code: 'ar', name: 'العربية' }
 ];
 
 // Create the language context
@@ -32,22 +32,34 @@ export function LanguageProvider({ children }) {
 
   // Load saved language preference on initial render
   useEffect(() => {
-    const savedLanguage = localStorage.getItem('language');
-    if (savedLanguage && languages.some(lang => lang.code === savedLanguage)) {
-      setLanguage(savedLanguage);
-    } else {
-      // Try to detect browser language
-      const browserLang = navigator.language.split('-')[0];
-      const supportedLang = languages.find(lang => lang.code === browserLang || lang.code.startsWith(browserLang));
-      if (supportedLang) {
-        setLanguage(supportedLang.code);
+    if (typeof window !== 'undefined') {
+      const savedLanguage = localStorage.getItem('preferredLanguage');
+      if (savedLanguage && languages.some(lang => lang.code === savedLanguage)) {
+        setLanguage(savedLanguage);
+      } else {
+        // Try to detect browser language
+        try {
+          const browserLang = navigator.language.split('-')[0];
+          const supportedLang = languages.find(lang => 
+            lang.code === browserLang || 
+            lang.code.startsWith(browserLang) ||
+            (browserLang === 'zh' && (lang.code === 'zh' || lang.code === 'zh-tw'))
+          );
+          if (supportedLang) {
+            setLanguage(supportedLang.code);
+          }
+        } catch (error) {
+          console.error('Error detecting browser language:', error);
+        }
       }
     }
   }, []);
 
   // Save language preference when it changes
   useEffect(() => {
-    localStorage.setItem('language', language);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('preferredLanguage', language);
+    }
   }, [language]);
 
   return (
