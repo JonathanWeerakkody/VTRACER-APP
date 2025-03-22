@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import TranslatedText from './i18n/TranslatedText';
 
 const SettingsPanel = ({ settings = {}, onChange }) => {
-  // Initialize local state with default settings, overridden by props
-  const [localSettings, setLocalSettings] = useState({
+  // Default settings
+  const defaultSettings = {
     clusteringMode: 'color',          // 'binary' or 'color'
     hierarchicalClustering: 'stacked', // 'stacked' or 'cutout'
     curveFitting: 'spline',           // 'none', 'polygon', 'spline'
@@ -12,6 +13,11 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
     cornerThreshold: 60,
     lengthThreshold: 4,
     spliceThreshold: 45,
+  };
+
+  // Initialize local state with default settings, overridden by props
+  const [localSettings, setLocalSettings] = useState({
+    ...defaultSettings,
     ...settings,
   });
 
@@ -33,6 +39,11 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
   // Apply settings when "Apply Settings" is clicked
   const applySettings = () => {
     onChange(localSettings);
+  };
+
+  // Reset settings to default values
+  const resetSettings = () => {
+    setLocalSettings(defaultSettings);
   };
 
   // Toggle advanced settings
@@ -75,7 +86,9 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
                 d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
               />
             </svg>
-            <span className="font-bold text-blue-800">Advanced Settings</span>
+            <span className="font-bold text-blue-800">
+              <TranslatedText id="advancedSettings" defaultText="Advanced Settings" />
+            </span>
           </div>
           <svg 
             className={`w-5 h-5 text-blue-700 transform transition-transform duration-200 ${isAdvancedOpen ? 'rotate-180' : ''}`} 
@@ -95,7 +108,7 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
             {/* Clustering Mode */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Clustering Mode
+                <TranslatedText id="clusteringMode" defaultText="Clustering Mode" />
               </label>
               <div className="flex space-x-4">
                 <button
@@ -106,7 +119,7 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
                       : 'bg-white text-gray-700 border-gray-300'
                   }`}
                 >
-                  Black &amp; White
+                  <TranslatedText id="bwMode" defaultText="Black & White" />
                 </button>
                 <button
                   onClick={() => handleModeChange('clusteringMode', 'color')}
@@ -116,7 +129,7 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
                       : 'bg-white text-gray-700 border-gray-300'
                   }`}
                 >
-                  Color
+                  <TranslatedText id="colorMode" defaultText="Color" />
                 </button>
               </div>
             </div>
@@ -124,7 +137,7 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
             {/* Hierarchical Clustering */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Hierarchical Clustering
+                <TranslatedText id="hierarchicalClustering" defaultText="Hierarchical Clustering" />
               </label>
               <div className="flex space-x-4">
                 <button
@@ -135,7 +148,7 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
                       : 'bg-white text-gray-700 border-gray-300'
                   }`}
                 >
-                  Stacked
+                  <TranslatedText id="stacked" defaultText="Stacked" />
                 </button>
                 <button
                   onClick={() => handleModeChange('hierarchicalClustering', 'cutout')}
@@ -145,7 +158,7 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
                       : 'bg-white text-gray-700 border-gray-300'
                   }`}
                 >
-                  Cutout
+                  <TranslatedText id="cutout" defaultText="Cutout" />
                 </button>
               </div>
             </div>
@@ -154,9 +167,9 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
             {/* Filter Speckle */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Filter Speckle
+                <TranslatedText id="filterSpeckle" defaultText="Filter Speckle" />
                 <span className="block text-xs text-gray-500">
-                  Discard patches smaller than X px in size (1-16).
+                  <TranslatedText id="filterSpeckleDesc" defaultText="Discard patches smaller than X px in size (1-16)." />
                 </span>
               </label>
               <div className="flex items-center space-x-4">
@@ -186,9 +199,9 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
               <>
                 <div className="mb-6">
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Color Precision
+                    <TranslatedText id="colorPrecision" defaultText="Color Precision" />
                     <span className="block text-xs text-gray-500">
-                      Number of significant bits to use (1-8).
+                      <TranslatedText id="colorPrecisionDesc" defaultText="Number of significant bits to use (1-8)." />
                     </span>
                   </label>
                   <div className="flex items-center space-x-4">
@@ -215,9 +228,9 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
 
                 <div className="mb-6">
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Gradient Step
+                    <TranslatedText id="gradientStep" defaultText="Gradient Step" />
                     <span className="block text-xs text-gray-500">
-                      Color difference between gradient layers (0-255).
+                      <TranslatedText id="gradientStepDesc" defaultText="Color difference between gradient layers (0-255)." />
                     </span>
                   </label>
                   <div className="flex items-center space-x-4">
@@ -247,7 +260,7 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
             {/* Curve Fitting */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Curve Fitting
+                <TranslatedText id="curveFitting" defaultText="Curve Fitting" />
               </label>
               <div className="flex space-x-4">
                 <button
@@ -258,7 +271,7 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
                       : 'bg-white text-gray-700 border-gray-300'
                   }`}
                 >
-                  Pixel
+                  <TranslatedText id="pixelMode" defaultText="Pixel" />
                 </button>
                 <button
                   onClick={() => handleModeChange('curveFitting', 'polygon')}
@@ -268,7 +281,7 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
                       : 'bg-white text-gray-700 border-gray-300'
                   }`}
                 >
-                  Polygon
+                  <TranslatedText id="polygonMode" defaultText="Polygon" />
                 </button>
                 <button
                   onClick={() => handleModeChange('curveFitting', 'spline')}
@@ -278,19 +291,19 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
                       : 'bg-white text-gray-700 border-gray-300'
                   }`}
                 >
-                  Spline
+                  <TranslatedText id="splineMode" defaultText="Spline" />
                 </button>
               </div>
             </div>
 
-            {/* Spline Options */}
-            {localSettings.curveFitting === 'spline' && (
+            {/* Corner Threshold (only if curveFitting = 'polygon' or 'spline') */}
+            {(localSettings.curveFitting === 'polygon' || localSettings.curveFitting === 'spline') && (
               <>
                 <div className="mb-6">
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Corner Threshold (°)
+                    <TranslatedText id="cornerThreshold" defaultText="Corner Threshold" />
                     <span className="block text-xs text-gray-500">
-                      Minimum angle to be considered a corner (0-180°).
+                      <TranslatedText id="cornerThresholdDesc" defaultText="Angle threshold for corners (0-180)." />
                     </span>
                   </label>
                   <div className="flex items-center space-x-4">
@@ -317,16 +330,16 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
 
                 <div className="mb-6">
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Segment Length
+                    <TranslatedText id="lengthThreshold" defaultText="Length Threshold" />
                     <span className="block text-xs text-gray-500">
-                      Minimum length of a path segment (1-10).
+                      <TranslatedText id="lengthThresholdDesc" defaultText="Minimum length of a segment (0-10)." />
                     </span>
                   </label>
                   <div className="flex items-center space-x-4">
                     <input
                       type="range"
                       name="lengthThreshold"
-                      min="1"
+                      min="0"
                       max="10"
                       value={localSettings.lengthThreshold}
                       onChange={handleChange}
@@ -338,7 +351,7 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
                       value={localSettings.lengthThreshold}
                       onChange={handleChange}
                       className="w-16 px-2 py-1 border rounded text-gray-700"
-                      min="1"
+                      min="0"
                       max="10"
                     />
                   </div>
@@ -346,9 +359,9 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
 
                 <div className="mb-6">
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Splice Threshold
+                    <TranslatedText id="spliceThreshold" defaultText="Splice Threshold" />
                     <span className="block text-xs text-gray-500">
-                      Maximum distance to splice paths (0-100).
+                      <TranslatedText id="spliceThresholdDesc" defaultText="Angle threshold for path splicing (0-180)." />
                     </span>
                   </label>
                   <div className="flex items-center space-x-4">
@@ -356,7 +369,7 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
                       type="range"
                       name="spliceThreshold"
                       min="0"
-                      max="100"
+                      max="180"
                       value={localSettings.spliceThreshold}
                       onChange={handleChange}
                       className="w-full accent-blue-500"
@@ -368,21 +381,31 @@ const SettingsPanel = ({ settings = {}, onChange }) => {
                       onChange={handleChange}
                       className="w-16 px-2 py-1 border rounded text-gray-700"
                       min="0"
-                      max="100"
+                      max="180"
                     />
                   </div>
                 </div>
               </>
             )}
 
-            {/* Moved the Apply Settings button here, full width */}
-            <button
-              type="button"
-              onClick={applySettings}
-              className="w-full px-4 py-2 mt-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-md hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              Apply Settings
-            </button>
+            {/* Button row for Apply and Reset Settings */}
+            <div className="flex space-x-4 mt-6">
+              <button
+                type="button"
+                onClick={applySettings}
+                className="flex-1 px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-md hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                <TranslatedText id="applySettings" defaultText="Apply Settings" />
+              </button>
+              
+              <button
+                type="button"
+                onClick={resetSettings}
+                className="flex-1 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                <TranslatedText id="resetSettings" defaultText="Reset Settings" />
+              </button>
+            </div>
           </div>
         )}
       </div>
