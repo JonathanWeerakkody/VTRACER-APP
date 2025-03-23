@@ -210,7 +210,7 @@ export default function Home() {
         {/* Hero Section */}
         <div className="relative bg-white overflow-hidden">
           <div className="max-w-7xl mx-auto">
-            <div className="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:pb-28 xl:pb-32">
+            <div className="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:pb-24 xl:pb-28">
               <div className="pt-10 sm:pt-16 lg:pt-8 xl:pt-16">
                 <div className="sm:text-center">
                   <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
@@ -218,28 +218,17 @@ export default function Home() {
                     <span className="block bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"><TranslatedText id="heroTitle2" defaultText="Stunning Vector Graphics" /></span>
                   </h1>
                   <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl">
-                    <TranslatedText id="heroDescription" defaultText="Convert PNG, JPG, and photos to SVG instantly with our free online vectorizer. Get high-quality vector graphics with real-time customization options." />
+                    <TranslatedText id="heroDescription" defaultText="Convert images to SVG instantly with our free online vectorizer." />
                   </p>
-                  <div className="mt-5 sm:mt-8 sm:flex sm:justify-center">
-                    <div className="rounded-md shadow">
-                      <a href="#upload-section" className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">
-                        <TranslatedText id="startConverting" defaultText="Start Converting Now" />
-                      </a>
-                    </div>
-                    <div className="mt-3 sm:mt-0 sm:ml-3">
-                      <a href="#features" className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 md:py-4 md:text-lg md:px-10">
-                        <TranslatedText id="learnMore" defaultText="Learn More" />
-                      </a>
-                    </div>
-                  </div>
+                  {/* Buttons removed as requested */}
                 </div>
               </div>
             </div>
           </div>
         </div>
         
-        {/* Upload Area */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Upload Area - moved higher as requested */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="space-y-8">
             {/* Upload Area (show if less than 10 files) */}
             {files.length < 10 && (
@@ -262,58 +251,71 @@ export default function Home() {
               />
             )}
             
-            {/* Preview Slider */}
-            {selectedFile && (
-              <div className="mt-8">
-                <BeforeAfterSlider 
-                  originalImage={selectedFile.original} 
-                  svgImage={selectedFile.svg} 
-                  isProcessing={conversionStatus[selectedFile.id]?.status === 'converting'}
-                />
-              </div>
-            )}
-            
-            {/* Conversion Progress */}
-            {selectedFile && conversionStatus[selectedFile.id]?.status === 'converting' && (
-              <ConversionProgress 
-                progress={conversionStatus[selectedFile.id]?.progress || 0}
-                status={<TranslatedText id="converting" defaultText="Converting image to SVG..." />}
-              />
-            )}
-            
-            {/* Settings and Download */}
-            {selectedFile && (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
-                <div className="md:col-span-2">
+            {/* Settings Panel (show if files exist) */}
+            {files.length > 0 && (
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="lg:col-span-2">
+                  {selectedFile && (
+                    <div className="bg-white shadow rounded-lg p-6">
+                      <h2 className="text-lg font-medium text-gray-900 mb-4">
+                        <TranslatedText id="preview" defaultText="Preview" />
+                      </h2>
+                      <BeforeAfterSlider 
+                        before={selectedFile.original} 
+                        after={selectedFile.svg || selectedFile.original} 
+                      />
+                    </div>
+                  )}
+                </div>
+                <div className="lg:col-span-1">
                   <EnhancedSettingsPanel 
                     settings={settings} 
                     onChange={handleSettingsChange} 
-                    isProcessing={conversionStatus[selectedFile.id]?.status === 'converting'}
-                  />
-                </div>
-                <div>
-                  <DownloadPanel 
-                    svgUrl={selectedFile.svg} 
-                    fileSize={selectedFile.fileSize} 
-                    isReady={!!selectedFile.svg && conversionStatus[selectedFile.id]?.status === 'completed'} 
                   />
                 </div>
               </div>
+            )}
+            
+            {/* Conversion Progress (show if converting) */}
+            {selectedFile && conversionStatus[selectedFile.id]?.status === 'converting' && (
+              <ConversionProgress progress={conversionStatus[selectedFile.id].progress} />
+            )}
+            
+            {/* Download Panel (show if conversion completed) */}
+            {selectedFile && conversionStatus[selectedFile.id]?.status === 'completed' && (
+              <DownloadPanel file={selectedFile} />
+            )}
+            
+            {/* Batch Download Panel (show if multiple files converted) */}
+            {files.length > 1 && Object.values(conversionStatus).some(status => status.status === 'completed') && (
+              <BatchDownloadPanel files={files.filter(file => conversionStatus[file.id]?.status === 'completed')} />
             )}
           </div>
         </div>
         
-        {/* Example Conversions Section */}
-        <ExampleConversions />
+        {/* Example Conversions */}
+        <div className="bg-gray-50 py-12 mt-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center">
+              <h2 className="text-3xl font-extrabold text-gray-900">
+                <TranslatedText id="examplesTitle" defaultText="See the transformation" />
+              </h2>
+              <p className="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+                <TranslatedText id="examplesDescription" defaultText="Check out these before and after examples of our SVG conversion." />
+              </p>
+            </div>
+            <ExampleConversions />
+          </div>
+        </div>
         
         {/* Features Section */}
-        <div className="py-12 bg-white">
+        <div id="features" className="py-12 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="lg:text-center">
-              <h2 className="text-base text-indigo-600 font-semibold tracking-wide uppercase">
+            <div className="text-center">
+              <h2 className="text-base font-semibold text-indigo-600 tracking-wide uppercase">
                 <TranslatedText id="features" defaultText="Features" />
               </h2>
-              <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+              <p className="mt-2 text-3xl font-extrabold text-gray-900 sm:text-4xl">
                 <TranslatedText id="featuresTitle" defaultText="Everything you need for perfect SVGs" />
               </p>
               <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
@@ -327,7 +329,7 @@ export default function Home() {
                 <div className="relative">
                   <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
                     <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                   </div>
                   <div className="ml-16">
@@ -344,15 +346,15 @@ export default function Home() {
                 <div className="relative">
                   <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
                     <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                     </svg>
                   </div>
                   <div className="ml-16">
                     <h3 className="text-lg font-medium text-gray-900">
-                      <TranslatedText id="feature2Title" defaultText="Real-Time Customization" />
+                      <TranslatedText id="feature2Title" defaultText="Real-time Customization" />
                     </h3>
                     <p className="mt-2 text-base text-gray-500">
-                      <TranslatedText id="feature2Description" defaultText="Adjust settings and see changes in real-time. Fine-tune your SVG to perfection." />
+                      <TranslatedText id="feature2Description" defaultText="Adjust settings and see changes in real-time. Tweak your SVG to perfection." />
                     </p>
                   </div>
                 </div>
@@ -361,7 +363,7 @@ export default function Home() {
                 <div className="relative">
                   <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
                     <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                     </svg>
                   </div>
                   <div className="ml-16">
@@ -393,8 +395,8 @@ export default function Home() {
         {/* Preview Modal */}
         {previewModal.isOpen && (
           <PreviewModal 
-            isOpen={previewModal.isOpen}
-            onClose={()  => setPreviewModal({ isOpen: false, image: null, title: '' })}
+            isOpen={previewModal.isOpen} 
+            onClose={() => setPreviewModal({ isOpen: false, image: null, title: '' })}
             image={previewModal.image}
             title={previewModal.title}
           />
@@ -402,6 +404,9 @@ export default function Home() {
       </main>
       
       <Footer />
+      
+      {/* Ad Blocker Notification */}
+      <AdBlockerNotification />
     </div>
   );
 }
