@@ -50,9 +50,7 @@ export default function ContactForm() {
   
   return (
     <div className="bg-gradient-to-br from-white to-purple-50 shadow-lg rounded-xl p-8 border border-purple-100">
-      <h2 className="text-3xl font-bold mb-6 text-center bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
-        <TranslatedText id="contactUs" defaultText="Contact Us" />
-      </h2>
+      {/* Title removed as requested */}
       
       {submitStatus && (
         <div className={`p-4 mb-6 rounded-lg ${submitStatus.success ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
@@ -133,9 +131,7 @@ export default function ContactForm() {
         </button>
       </form>
       
-      <div className="mt-8 text-center text-sm text-gray-500">
-        <TranslatedText id="contactDisclaimer" defaultText="We'll respond to your inquiry as soon as possible." />
-      </div>
+      {/* Contact disclaimer removed as requested */}
     </div>
   );
 }
