@@ -23,7 +23,7 @@ export default function Contact() {
   return (
     <div className="min-h-screen bg-white">
       <Head>
-        <title>Contact Us - Vectorise.Me</title>
+        <title>Contact Support - Vectorise.Me</title>
         <meta name="description" content="Contact the Vectorise.Me team for support or feedback." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
