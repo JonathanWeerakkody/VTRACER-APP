@@ -67,19 +67,29 @@ export default function EnhancedUploadArea({ onUpload, isUploading, uploadProgre
       
       {/* Floating animated file format icons */}
       <div className="floating-icon floating-icon-png absolute">
-        <div className="text-xl font-bold text-purple-500 bg-white rounded-lg shadow-lg px-3 py-1">PNG</div>
+        <div className="icon-container">
+          <img src="/images/png-icon.png" alt="PNG" className="format-icon" />
+        </div>
       </div>
       <div className="floating-icon floating-icon-jpg absolute">
-        <div className="text-xl font-bold text-indigo-500 bg-white rounded-lg shadow-lg px-3 py-1">JPG</div>
+        <div className="icon-container">
+          <img src="/images/jpg-icon.png" alt="JPG" className="format-icon" />
+        </div>
       </div>
       <div className="floating-icon floating-icon-gif absolute">
-        <div className="text-xl font-bold text-pink-500 bg-white rounded-lg shadow-lg px-3 py-1">GIF</div>
+        <div className="icon-container">
+          <img src="/images/gif-icon.png" alt="GIF" className="format-icon" />
+        </div>
       </div>
       <div className="floating-icon floating-icon-bmp absolute">
-        <div className="text-xl font-bold text-blue-500 bg-white rounded-lg shadow-lg px-3 py-1">BMP</div>
+        <div className="icon-container">
+          <img src="/images/bmp-icon.png" alt="BMP" className="format-icon" />
+        </div>
       </div>
       <div className="floating-icon floating-icon-webp absolute">
-        <div className="text-xl font-bold text-green-500 bg-white rounded-lg shadow-lg px-3 py-1">WEBP</div>
+        <div className="icon-container">
+          <img src="/images/webp-icon.png" alt="WEBP" className="format-icon" />
+        </div>
       </div>
       
       <div className="flex flex-col items-center justify-center relative z-10">
@@ -156,85 +166,117 @@ export default function EnhancedUploadArea({ onUpload, isUploading, uploadProgre
         }
         
         .upload-area:hover {
-          box-shadow: 0 0 15px rgba(124, 58, 237, 0.3);
+          box-shadow: 0 0 20px rgba(124, 58, 237, 0.5);
+        }
+        
+        .upload-area:hover .floating-icon {
+          opacity: 0.9;
         }
         
         .floating-icon {
           position: absolute;
-          animation-duration: 8s;
+          animation-duration: 10s;
           animation-iteration-count: infinite;
           animation-timing-function: ease-in-out;
           z-index: 1;
+          opacity: 0.7;
+          transition: all 0.3s ease;
+        }
+        
+        .icon-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: rgba(255, 255, 255, 0.8);
+          border-radius: 12px;
+          padding: 8px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          transition: all 0.3s ease;
+        }
+        
+        .format-icon {
+          width: 64px;
+          height: 64px;
+          object-fit: contain;
+        }
+        
+        .floating-icon:hover {
+          opacity: 1;
+          transform: scale(1.1);
         }
         
         .floating-icon-png {
-          top: 20%;
+          top: 15%;
           left: 15%;
           animation-name: float-1;
         }
         
         .floating-icon-jpg {
-          top: 30%;
-          right: 20%;
+          top: 25%;
+          right: 18%;
           animation-name: float-2;
         }
         
         .floating-icon-gif {
           bottom: 25%;
-          left: 25%;
+          left: 20%;
           animation-name: float-3;
         }
         
         .floating-icon-bmp {
-          top: 50%;
-          right: 15%;
+          top: 45%;
+          right: 12%;
           animation-name: float-4;
         }
         
         .floating-icon-webp {
-          bottom: 20%;
-          right: 30%;
+          bottom: 18%;
+          right: 25%;
           animation-name: float-5;
         }
         
         @keyframes float-1 {
           0%, 100% { transform: translate(0, 0) rotate(0deg); }
-          25% { transform: translate(15px, 15px) rotate(5deg); }
-          50% { transform: translate(0, 25px) rotate(0deg); }
-          75% { transform: translate(-15px, 10px) rotate(-5deg); }
+          25% { transform: translate(20px, 20px) rotate(5deg); }
+          50% { transform: translate(0, 35px) rotate(0deg); }
+          75% { transform: translate(-20px, 15px) rotate(-5deg); }
         }
         
         @keyframes float-2 {
           0%, 100% { transform: translate(0, 0) rotate(0deg); }
-          25% { transform: translate(-15px, 10px) rotate(-5deg); }
-          50% { transform: translate(0, 20px) rotate(0deg); }
-          75% { transform: translate(15px, 5px) rotate(5deg); }
+          25% { transform: translate(-20px, 15px) rotate(-5deg); }
+          50% { transform: translate(0, 30px) rotate(0deg); }
+          75% { transform: translate(20px, 10px) rotate(5deg); }
         }
         
         @keyframes float-3 {
           0%, 100% { transform: translate(0, 0) rotate(0deg); }
-          25% { transform: translate(10px, -15px) rotate(3deg); }
-          50% { transform: translate(20px, 0) rotate(0deg); }
-          75% { transform: translate(5px, 15px) rotate(-3deg); }
+          25% { transform: translate(15px, -20px) rotate(3deg); }
+          50% { transform: translate(30px, 0) rotate(0deg); }
+          75% { transform: translate(10px, 20px) rotate(-3deg); }
         }
         
         @keyframes float-4 {
           0%, 100% { transform: translate(0, 0) rotate(0deg); }
-          25% { transform: translate(-10px, -10px) rotate(-3deg); }
-          50% { transform: translate(-15px, 5px) rotate(0deg); }
-          75% { transform: translate(-5px, -15px) rotate(3deg); }
+          25% { transform: translate(-15px, -15px) rotate(-3deg); }
+          50% { transform: translate(-25px, 10px) rotate(0deg); }
+          75% { transform: translate(-10px, -20px) rotate(3deg); }
         }
         
         @keyframes float-5 {
           0%, 100% { transform: translate(0, 0) rotate(0deg); }
-          25% { transform: translate(15px, -5px) rotate(5deg); }
-          50% { transform: translate(5px, -15px) rotate(0deg); }
-          75% { transform: translate(-10px, -10px) rotate(-5deg); }
+          25% { transform: translate(20px, -10px) rotate(5deg); }
+          50% { transform: translate(10px, -25px) rotate(0deg); }
+          75% { transform: translate(-15px, -15px) rotate(-5deg); }
         }
         
         .drag-active {
           border: 2px dashed #8b5cf6 !important;
-          box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+          box-shadow: 0 0 30px rgba(139, 92, 246, 0.4);
+        }
+        
+        .drag-active .floating-icon {
+          opacity: 0.95;
         }
       `}</style>
     </div>
