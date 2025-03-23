@@ -4,7 +4,7 @@ import TranslatedText from './i18n/TranslatedText';
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
-    name: '',
+    email: '',
     subject: '',
     message: ''
   });
@@ -33,7 +33,7 @@ export default function ContactForm() {
       
       // Reset form
       setFormData({
-        name: '',
+        email: '',
         subject: '',
         message: ''
       });
@@ -50,8 +50,6 @@ export default function ContactForm() {
   
   return (
     <div className="bg-gradient-to-br from-white to-purple-50 shadow-lg rounded-xl p-8 border border-purple-100">
-      {/* Title removed as requested */}
-      
       {submitStatus && (
         <div className={`p-4 mb-6 rounded-lg ${submitStatus.success ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
           {submitStatus.message}
@@ -60,18 +58,18 @@ export default function ContactForm() {
       
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="relative">
-          <label htmlFor="name" className="absolute -top-2.5 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-600">
-            <TranslatedText id="name" defaultText="Name" />
+          <label htmlFor="email" className="absolute -top-2.5 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-600">
+            <TranslatedText id="email" defaultText="Email" />
           </label>
           <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
             onChange={handleChange}
             required
             className="mt-1 block w-full px-4 py-3 bg-white border border-purple-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
-            placeholder="Your name"
+            placeholder="Your email"
           />
         </div>
         
@@ -130,8 +128,6 @@ export default function ContactForm() {
           )}
         </button>
       </form>
-      
-      {/* Contact disclaimer removed as requested */}
     </div>
   );
 }
