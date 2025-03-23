@@ -164,6 +164,152 @@ export const translations = {
     pending: "Pending"
   },
   
+  // Arabic translations
+  ar: {
+    // Navigation
+    home: "الرئيسية",
+    contact: "اتصل بنا",
+    editor: "المحرر",
+    
+    // Hero Section
+    heroTitle1: "حوّل الصور إلى",
+    heroTitle2: "رسومات متجهية مذهلة",
+    heroTitle3: "تحويل SVG مجاني 100%",
+    heroDescription: "حوّل الصور إلى SVG فورًا باستخدام أداة التحويل المجانية عبر الإنترنت.",
+    startConverting: "ابدأ التحويل",
+    viewExamples: "عرض الأمثلة",
+    
+    // Features Section
+    features: "المميزات",
+    featuresTitle: "كل ما تحتاجه للحصول على SVG مثالي",
+    featuresDescription: "توفر أداة التحويل القوية لدينا تحكمًا كاملاً في الرسومات المتجهية الخاصة بك.",
+    feature1Title: "تحويل فوري",
+    feature1Description: "قم بتحميل صورتك واحصل على معاينة SVG فورًا. لا انتظار، لا تأخير في المعالجة.",
+    feature2Title: "تخصيص في الوقت الفعلي",
+    feature2Description: "اضبط الإعدادات وشاهد التغييرات في الوقت الفعلي. عدّل SVG الخاص بك للكمال.",
+    feature3Title: "نتائج عالية الجودة",
+    feature3Description: "احصل على ملفات SVG نظيفة ومحسنة تتناسب بشكل مثالي مع أي حالة استخدام.",
+    ctaTitle: "ابدأ باستخدام Vectorise.Me اليوم.",
+    ctaDescription: "حوّل صورك إلى SVG باستخدام أداتنا المجانية عبر الإنترنت. لا يلزم التسجيل.",
+    
+    // Examples Section
+    examples: "أمثلة",
+    examplesTitle: "شاهد التحويل",
+    examplesDescription: "تحقق من أمثلة قبل وبعد لتحويل SVG لدينا.",
+    original: "الأصلي",
+    svg: "SVG",
+    logoConversion: "تحويل الشعار",
+    logoConversionDesc: "تحويل الشعار النظيف بوضع الشكل",
+    photoConversion: "تحويل الصورة إلى متجه",
+    photoConversionDesc: "صورة مفصلة مع الحفاظ على الألوان",
+    sketchConversion: "رسم أبيض وأسود",
+    sketchConversionDesc: "رسم بسيط بخطوط نظيفة",
+    
+    // Upload Area
+    dragDropImages: "اسحب وأفلت صورك هنا",
+    dropImagesHere: "أفلت صورك هنا",
+    orClickToBrowse: "أو انقر للتصفح",
+    pasteFromClipboard: "للصق من الحافظة",
+    fileSupport: "يدعم PNG، JPG، GIF، BMP، WEBP (بحد أقصى 10 ميجابايت لكل ملف)",
+    uploadLimit: "قم بتحميل ما يصل إلى 10 صور في وقت واحد",
+    uploading: "جاري التحميل...",
+    complete: "اكتمل",
+    
+    // Settings Panel
+    settings: "الإعدادات",
+    outputMode: "وضع الإخراج",
+    bwMode: "أبيض وأسود",
+    grayscaleMode: "تدرج رمادي",
+    colorMode: "ملون",
+    layerMode: "وضع الطبقة",
+    stacked: "متراكم",
+    cutout: "مقطوع",
+    threshold: "العتبة",
+    grayLevels: "عدد مستويات الرمادي",
+    colorQuantization: "عدد الألوان",
+    colorPrecision: "دقة الألوان",
+    colorPrecisionDesc: "عدد البتات المهمة للاستخدام (1-8).",
+    gradientStep: "خطوة التدرج",
+    gradientStepDesc: "اختلاف اللون بين طبقات التدرج (0-255).",
+    filterSpeckle: "تصفية البقع",
+    filterSpeckleDesc: "تجاهل البقع الأصغر من X بكسل في الحجم (1-16).",
+    pathSimplification: "تبسيط المسار",
+    advancedSettings: "إعدادات متقدمة",
+    curveFitting: "تناسب المنحنى",
+    pixelMode: "بكسل",
+    polygonMode: "مضلع",
+    splineMode: "منحنى",
+    cornerThreshold: "عتبة الزاوية",
+    cornerThresholdDesc: "عتبة الزاوية للزوايا (0-180).",
+    lengthThreshold: "عتبة الطول",
+    lengthThresholdDesc: "الحد الأدنى لطول القطعة (0-10).",
+    segmentLength: "طول القطعة",
+    spliceThreshold: "عتبة الربط",
+    spliceThresholdDesc: "عتبة الزاوية لربط المسار (0-180).",
+    strokeWidthDetection: "اكتشاف عرض الخط",
+    backgroundTransparency: "شفافية الخلفية",
+    applyToAll: "تطبيق على جميع الصور",
+    applySettings: "تطبيق الإعدادات",
+    resetSettings: "إعادة ضبط الإعدادات",
+    clusteringMode: "وضع التجميع",
+    hierarchicalClustering: "تجميع هرمي",
+    
+    // Preview
+    preview: "معاينة",
+    previewNote: "هذه معاينة بناءً على إعداداتك الحالية. قد يختلف SVG النهائي قليلاً.",
+    close: "إغلاق",
+    
+    // Batch Operations
+    batchOperations: "عمليات المجموعة",
+    filesReadyStatus: "0 من 0 ملفات جاهزة",
+    converting: "جاري التحويل...",
+    convert: "تحويل",
+    convertAll: "تحويل الكل",
+    downloadAllZip: "تنزيل الكل",
+    
+    // Download Panel
+    download: "تنزيل",
+    downloadSVG: "تنزيل SVG",
+    downloadPNG: "تنزيل PNG",
+    fileSize: "حجم الملف",
+    
+    // Footer
+    product: "المنتج",
+    support: "الدعم",
+    company: "الشركة",
+    legal: "قانوني",
+    about: "حول",
+    privacy: "سياسة الخصوصية",
+    cookies: "سياسة ملفات تعريف الارتباط",
+    terms: "شروط الخدمة",
+    faq: "الأسئلة الشائعة",
+    copyright: "جميع الحقوق محفوظة.",
+    freeService: "هذه الخدمة مجانية تمامًا ومدعومة بعائدات الإعلانات.",
+    
+    // Contact Form
+    contactUs: "اتصل بنا",
+    contactDescription: "هل لديك أسئلة أو ملاحظات؟ نود أن نسمع منك.",
+    name: "الاسم",
+    email: "البريد الإلكتروني",
+    subject: "الموضوع",
+    message: "الرسالة",
+    send: "إرسال الرسالة",
+    sendMessage: "إرسال الرسالة",
+    sending: "جاري الإرسال...",
+    messageSent: "تم إرسال رسالتك. شكرًا لك!",
+    contactDisclaimer: "سنرد على استفسارك في أقرب وقت ممكن.",
+    
+    // Misc
+    loading: "جاري التحميل...",
+    processing: "جاري المعالجة...",
+    converting: "جاري تحويل الصورة إلى SVG...",
+    beforeAfter: "مقارنة قبل وبعد",
+    delete: "حذف",
+    dragToCompare: "اسحب للمقارنة",
+    clickToZoom: "انقر للتكبير",
+    pending: "قيد الانتظار"
+  },
+  
   // German translations
   de: {
     // Navigation
@@ -354,211 +500,95 @@ export const translations = {
     bwMode: "B/N",
     grayscaleMode: "Escala de grises",
     colorMode: "Color",
+    layerMode: "Modo de capa",
+    stacked: "Apilado",
+    cutout: "Recorte",
+    threshold: "Umbral",
+    grayLevels: "Número de niveles de gris",
+    colorQuantization: "Número de colores",
+    colorPrecision: "Precisión de color",
+    colorPrecisionDesc: "Número de bits significativos a usar (1-8).",
+    gradientStep: "Paso de gradiente",
+    gradientStepDesc: "Diferencia de color entre capas de gradiente (0-255).",
+    filterSpeckle: "Filtro de manchas",
+    filterSpeckleDesc: "Descartar parches menores de X px de tamaño (1-16).",
+    pathSimplification: "Simplificación de ruta",
     advancedSettings: "Configuración avanzada",
+    curveFitting: "Ajuste de curva",
+    pixelMode: "Píxel",
+    polygonMode: "Polígono",
+    splineMode: "Spline",
+    cornerThreshold: "Umbral de esquina",
+    cornerThresholdDesc: "Umbral de ángulo para esquinas (0-180).",
+    lengthThreshold: "Umbral de longitud",
+    lengthThresholdDesc: "Longitud mínima de un segmento (0-10).",
+    segmentLength: "Longitud de segmento",
+    spliceThreshold: "Umbral de empalme",
+    spliceThresholdDesc: "Umbral de ángulo para empalme de ruta (0-180).",
+    strokeWidthDetection: "Detección de ancho de trazo",
+    backgroundTransparency: "Transparencia de fondo",
+    applyToAll: "Aplicar a todas las imágenes",
     applySettings: "Aplicar configuración",
     resetSettings: "Restablecer configuración",
+    clusteringMode: "Modo de agrupación",
+    hierarchicalClustering: "Agrupación jerárquica",
     
     // Preview
     preview: "Vista previa",
+    previewNote: "Esta es una vista previa basada en su configuración actual. El SVG final puede variar ligeramente.",
+    close: "Cerrar",
+    
+    // Batch Operations
+    batchOperations: "Operaciones por lotes",
+    filesReadyStatus: "0 de 0 archivos listos",
+    converting: "Convirtiendo...",
+    convert: "Convertir",
+    convertAll: "Convertir todo",
+    downloadAllZip: "Descargar todo",
     
     // Download Panel
     download: "Descargar",
     downloadSVG: "Descargar SVG",
-    downloadAllZip: "Descargar todo",
+    downloadPNG: "Descargar PNG",
+    fileSize: "Tamaño del archivo",
+    
+    // Footer
+    product: "Producto",
+    support: "Soporte",
+    company: "Empresa",
+    legal: "Legal",
+    about: "Acerca de",
+    privacy: "Política de privacidad",
+    cookies: "Política de cookies",
+    terms: "Términos de servicio",
+    faq: "Preguntas frecuentes",
+    copyright: "Todos los derechos reservados.",
+    freeService: "Este servicio es completamente gratuito y está financiado por ingresos publicitarios.",
     
     // Contact Form
     contactUs: "Contáctenos",
+    contactDescription: "¿Tiene preguntas o comentarios? Nos encantaría saber de usted.",
     name: "Nombre",
+    email: "Correo electrónico",
     subject: "Asunto",
     message: "Mensaje",
+    send: "Enviar mensaje",
     sendMessage: "Enviar mensaje",
     sending: "Enviando...",
+    messageSent: "Su mensaje ha sido enviado. ¡Gracias!",
+    contactDisclaimer: "Responderemos a su consulta lo antes posible.",
     
     // Misc
+    loading: "Cargando...",
+    processing: "Procesando...",
+    converting: "Convirtiendo imagen a SVG...",
+    beforeAfter: "Comparación antes y después",
     delete: "Eliminar",
     dragToCompare: "Arrastrar para comparar",
     clickToZoom: "Clic para ampliar",
-    pending: "Pendiente",
-    convert: "Convertir",
-    
-    // Footer
-    copyright: "Todos los derechos reservados.",
-    freeService: "Este servicio es completamente gratuito y está financiado por ingresos publicitarios."
-  },
-  
-  // French translations
-  fr: {
-    // Navigation
-    home: "Accueil",
-    contact: "Contact",
-    editor: "Éditeur",
-    
-    // Hero Section
-    heroTitle1: "Transformez des images en",
-    heroTitle2: "Graphiques vectoriels évolutifs",
-    heroTitle3: "Conversion SVG 100% gratuite",
-    heroDescription: "Convertissez des images en SVG instantanément avec notre vectoriseur en ligne gratuit.",
-    startConverting: "Commencer la conversion",
-    viewExamples: "Voir des exemples",
-    
-    // Features Section
-    feature1Title: "Conversion instantanée",
-    feature1Description: "Téléchargez votre image et obtenez un aperçu SVG instantanément. Pas d'attente, pas de délais de traitement.",
-    feature2Title: "Personnalisation en temps réel",
-    feature2Description: "Ajustez les paramètres et voyez les changements en temps réel. Affinez votre SVG à la perfection.",
-    feature3Title: "Résultats de haute qualité",
-    feature3Description: "Obtenez des SVG propres et optimisés qui s'adaptent parfaitement à tous les cas d'utilisation.",
-    ctaTitle: "Commencez à utiliser Vectorise.Me aujourd'hui.",
-    ctaDescription: "Convertissez vos images en SVG avec notre outil en ligne gratuit. Aucune inscription requise.",
-    
-    // Upload Area
-    dragDropImages: "Glissez et déposez vos images ici",
-    dropImagesHere: "Déposez vos images ici",
-    orClickToBrowse: "ou cliquez pour parcourir",
-    pasteFromClipboard: "pour coller depuis le presse-papiers",
-    fileSupport: "Prend en charge PNG, JPG, GIF, BMP, WEBP (max 10 Mo par fichier)",
-    uploadLimit: "Téléchargez jusqu'à 10 images à la fois",
-    
-    // Settings Panel
-    advancedSettings: "Paramètres avancés",
-    applySettings: "Appliquer les paramètres",
-    resetSettings: "Réinitialiser les paramètres",
-    
-    // Preview
-    preview: "Aperçu",
-    
-    // Download Panel
-    downloadSVG: "Télécharger SVG",
-    downloadAllZip: "Tout télécharger",
-    
-    // Contact Form
-    contactUs: "Contactez-nous",
-    name: "Nom",
-    subject: "Sujet",
-    message: "Message",
-    sendMessage: "Envoyer le message",
-    sending: "Envoi en cours...",
-    
-    // Misc
-    delete: "Supprimer",
-    convert: "Convertir",
-    dragToCompare: "Glisser pour comparer",
-    clickToZoom: "Cliquer pour zoomer",
-    pending: "En attente",
-    
-    // Footer
-    copyright: "Tous droits réservés.",
-    freeService: "Ce service est entièrement gratuit et financé par la publicité."
+    pending: "Pendiente"
   },
   
   // Add other languages with similar structure
-  // This is a template for all other languages
   // Each language should have the same keys as English
-  
-  // Chinese (Simplified)
-  zh: {
-    // Navigation
-    home: "首页",
-    contact: "联系我们",
-    editor: "编辑器",
-    
-    // Hero Section
-    heroTitle1: "将图像转换为",
-    heroTitle2: "可缩放的矢量图形",
-    heroTitle3: "100% 免费 SVG 转换",
-    heroDescription: "使用我们的免费在线矢量化工具即时将图像转换为 SVG。",
-    
-    // Features Section
-    feature1Title: "即时转换",
-    feature1Description: "上传您的图像并立即获得 SVG 预览。无需等待，无处理延迟。",
-    feature2Title: "实时自定义",
-    feature2Description: "调整设置并实时查看更改。完美优化您的 SVG。",
-    feature3Title: "高质量结果",
-    feature3Description: "获取干净、优化的 SVG，可完美缩放适应任何用例。",
-    
-    // Upload Area
-    dragDropImages: "拖放图像到这里",
-    dropImagesHere: "在此处放置图像",
-    orClickToBrowse: "或点击浏览",
-    pasteFromClipboard: "从剪贴板粘贴",
-    fileSupport: "支持 PNG、JPG、GIF、BMP、WEBP（每个文件最大 10MB）",
-    uploadLimit: "一次最多上传 10 张图片",
-    
-    // Settings Panel
-    advancedSettings: "高级设置",
-    applySettings: "应用设置",
-    resetSettings: "重置设置",
-    
-    // Preview
-    preview: "预览",
-    
-    // Download Panel
-    downloadSVG: "下载 SVG",
-    downloadAllZip: "下载全部",
-    
-    // Contact Form
-    contactUs: "联系我们",
-    name: "姓名",
-    subject: "主题",
-    message: "消息",
-    sendMessage: "发送消息",
-    sending: "发送中...",
-    
-    // Misc
-    delete: "删除",
-    convert: "转换",
-    
-    // Footer
-    copyright: "保留所有权利。",
-    freeService: "此服务完全免费，由广告收入支持。"
-  },
-  
-  // Add remaining languages with similar structure
-  // Each should have at minimum the essential UI elements translated
-  
-  // Russian
-  ru: {
-    home: "Главная",
-    contact: "Контакт",
-    heroDescription: "Мгновенно конвертируйте изображения в SVG с помощью нашего бесплатного онлайн-векторизатора.",
-    feature1Title: "Мгновенное преобразование",
-    feature2Title: "Настройка в реальном времени",
-    feature3Title: "Высококачественные результаты",
-    dragDropImages: "Перетащите изображения сюда",
-    orClickToBrowse: "или нажмите для просмотра",
-    preview: "Предпросмотр",
-    advancedSettings: "Расширенные настройки",
-    applySettings: "Применить настройки",
-    resetSettings: "Сбросить настройки",
-    downloadSVG: "Скачать SVG",
-    downloadAllZip: "Скачать все",
-    contactUs: "Связаться с нами",
-    delete: "Удалить",
-    convert: "Конвертировать"
-  },
-  
-  // Japanese
-  ja: {
-    home: "ホーム",
-    contact: "お問い合わせ",
-    heroDescription: "無料のオンラインベクタライザーで画像を瞬時にSVGに変換します。",
-    feature1Title: "瞬時の変換",
-    feature2Title: "リアルタイムカスタマイズ",
-    feature3Title: "高品質の結果",
-    dragDropImages: "ここに画像をドラッグ＆ドロップ",
-    orClickToBrowse: "またはクリックして参照",
-    preview: "プレビュー",
-    advancedSettings: "詳細設定",
-    applySettings: "設定を適用",
-    resetSettings: "設定をリセット",
-    downloadSVG: "SVGをダウンロード",
-    downloadAllZip: "すべてダウンロード",
-    contactUs: "お問い合わせ",
-    delete: "削除",
-    convert: "変換"
-  }
-  
-  // Note: For a production application, all languages would have complete translations
-  // This file demonstrates the structure and essential translations
-  // In a real implementation, each language would have all keys from the English version
 };
