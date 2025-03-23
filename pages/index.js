@@ -18,7 +18,6 @@ import PreviewModal from '../components/PreviewModal';
 import BatchDownloadPanel from '../components/BatchDownloadPanel';
 import ExampleConversions from '../components/ExampleConversions';
 
-
 export default function Home() {
   const router = useRouter();
   const { language } = useLanguage();
@@ -215,7 +214,7 @@ export default function Home() {
                 <div className="sm:text-center">
                   <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
                     <span className="block"><TranslatedText id="heroTitle1" defaultText="Transform Images into" /></span>
-                    <span className="block bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"><TranslatedText id="heroTitle2" defaultText="Stunning Vector Graphics" /></span>
+                    <span className="block bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700"><TranslatedText id="heroTitle2" defaultText="Stunning Vector Graphics" /></span>
                   </h1>
                   <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl">
                     <TranslatedText id="heroDescription" defaultText="Convert images to SVG instantly with our free online vectorizer." />
@@ -296,14 +295,6 @@ export default function Home() {
         {/* Example Conversions */}
         <div className="bg-gray-50 py-12 mt-8">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center">
-              <h2 className="text-3xl font-extrabold text-gray-900">
-                <TranslatedText id="examplesTitle" defaultText="See the transformation" />
-              </h2>
-              <p className="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
-                <TranslatedText id="examplesDescription" defaultText="Check out these before and after examples of our SVG conversion." />
-              </p>
-            </div>
             <ExampleConversions />
           </div>
         </div>
@@ -312,7 +303,7 @@ export default function Home() {
         <div id="features" className="py-12 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
-              <h2 className="text-base font-semibold text-indigo-600 tracking-wide uppercase">
+              <h2 className="text-base font-semibold text-purple-600 tracking-wide uppercase">
                 <TranslatedText id="features" defaultText="Features" />
               </h2>
               <p className="mt-2 text-3xl font-extrabold text-gray-900 sm:text-4xl">
@@ -327,7 +318,7 @@ export default function Home() {
               <div className="space-y-10 md:space-y-0 md:grid md:grid-cols-3 md:gap-x-8 md:gap-y-10">
                 {/* Feature 1 */}
                 <div className="relative">
-                  <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                  <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-purple-500 text-white">
                     <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
@@ -344,7 +335,7 @@ export default function Home() {
                 
                 {/* Feature 2 */}
                 <div className="relative">
-                  <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                  <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-purple-500 text-white">
                     <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                     </svg>
@@ -361,7 +352,7 @@ export default function Home() {
                 
                 {/* Feature 3 */}
                 <div className="relative">
-                  <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                  <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-purple-500 text-white">
                     <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                     </svg>
@@ -381,12 +372,12 @@ export default function Home() {
         </div>
         
         {/* CTA Section */}
-        <div className="bg-indigo-700">
+        <div className="bg-purple-700">
           <div className="max-w-2xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
             <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
               <TranslatedText id="ctaTitle" defaultText="Start using Vectorise.Me today." />
             </h2>
-            <p className="mt-4 text-lg leading-6 text-indigo-200">
+            <p className="mt-4 text-lg leading-6 text-purple-200">
               <TranslatedText id="ctaDescription" defaultText="Convert your images to SVG with our free online tool. No registration required." />
             </p>
           </div>
