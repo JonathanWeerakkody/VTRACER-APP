@@ -217,7 +217,7 @@ export default function Home() {
                     <span className="block bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700"><TranslatedText id="heroTitle2" defaultText="Stunning Vector Graphics" /></span>
                   </h1>
                   <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl">
-                    <TranslatedText id="heroDescription" defaultText="Convert images to SVG instantly with our free online vectorizer." />
+                    <TranslatedText id="heroDescription" defaultText="Convert images to SVG instantly with our free online vectorizer. Customize your conversion.  No registration required.  " />
                   </p>
                   {/* Buttons removed as requested */}
                 </div>
