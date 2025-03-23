@@ -36,42 +36,43 @@ export default function Contact() {
             <TranslatedText id="contactTitle" defaultText="Contact Us" />
           </h1>
           
-          <div className="bg-white shadow overflow-hidden sm:rounded-lg mb-8">
+          <ContactForm onSubmit={handleSubmit} formStatus={formStatus} />
+          
+          {/* Common Problems & Solutions Section */}
+          <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-8">
             <div className="px-4 py-5 sm:px-6">
               <h2 className="text-lg font-medium text-gray-900">
-                <TranslatedText id="contactInfo" defaultText="Contact Information" />
+                <TranslatedText id="commonProblems" defaultText="Common Problems & Solutions" />
               </h2>
               <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                <TranslatedText id="contactInfoDesc" defaultText="Reach out to us with any questions or feedback." />
+                <TranslatedText id="commonProblemsDesc" defaultText="Here are some common issues you might encounter and how to resolve them." />
               </p>
             </div>
             <div className="border-t border-gray-200 px-4 py-5 sm:p-6">
-              <dl className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
-                <div className="sm:col-span-1">
-                  <dt className="text-sm font-medium text-gray-500">
-                    <TranslatedText id="email" defaultText="Email" />
-                  </dt>
-                  <dd className="mt-1 text-sm text-gray-900">jonkarystudio@gmail.com</dd>
-                </div>
-                <div className="sm:col-span-1">
-                  <dt className="text-sm font-medium text-gray-500">
-                    <TranslatedText id="phone" defaultText="Phone" />
-                  </dt>
-                  <dd className="mt-1 text-sm text-gray-900">2036872785</dd>
-                </div>
-                <div className="sm:col-span-2">
-                  <dt className="text-sm font-medium text-gray-500">
-                    <TranslatedText id="about" defaultText="About" />
-                  </dt>
-                  <dd className="mt-1 text-sm text-gray-900">
-                    <TranslatedText id="aboutDesc" defaultText="Vectorise.Me is a free online tool for converting raster images to SVG. Our service is completely free and supported by ad revenue." />
-                  </dd>
-                </div>
-              </dl>
+              <ul className="list-disc pl-5 space-y-4">
+                <li>
+                  <strong><TranslatedText id="imageQualityIssue" defaultText="Image Quality Issues" /></strong>
+                  <p><TranslatedText id="imageQualitySolution" defaultText="The converted SVG doesn't match the original image quality. Adjust the settings in the vectorization process, such as increasing the number of colors or adjusting the tolerance levels." /></p>
+                </li>
+                <li>
+                  <strong><TranslatedText id="performanceIssue" defaultText="Performance Issues" /></strong>
+                  <p><TranslatedText id="performanceSolution" defaultText="The conversion process is slow or unresponsive. Try reducing the image size or complexity before uploading. Large or highly detailed images may take longer to process." /></p>
+                </li>
+                <li>
+                  <strong><TranslatedText id="compatibilityIssue" defaultText="Compatibility Problems" /></strong>
+                  <p><TranslatedText id="compatibilitySolution" defaultText="The generated SVG doesn't display correctly in certain browsers or applications. Ensure that the SVG is optimized and check for any incompatible features. You may need to simplify the SVG or use a different viewer." /></p>
+                </li>
+                <li>
+                  <strong><TranslatedText id="errorMessages" defaultText="Error Messages" /></strong>
+                  <p><TranslatedText id="errorMessagesSolution" defaultText="Encountering error messages during the conversion process. Check the error message for specific details. Common issues include unsupported file formats or corrupted images. Ensure your image is in a supported format (e.g., PNG, JPG)." /></p>
+                </li>
+                <li>
+                  <strong><TranslatedText id="backendConnectionIssue" defaultText="Backend Connection Issues" /></strong>
+                  <p><TranslatedText id="backendConnectionSolution" defaultText="Unable to connect to the V-Tracer backend for conversion. Verify your internet connection and try again. If the problem persists, there might be a server-side issue; please try again later or contact support." /></p>
+                </li>
+              </ul>
             </div>
           </div>
-          
-          <ContactForm onSubmit={handleSubmit} formStatus={formStatus} />
         </div>
       </main>
       
