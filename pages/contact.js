@@ -68,7 +68,7 @@ export default function Contact() {
                 </li>
                 <li>
                   <strong><TranslatedText id="backendConnectionIssue" defaultText="Backend Connection Issues" /></strong>
-                  <p><TranslatedText id="backendConnectionSolution" defaultText="Unable to connect to the V-Tracer backend for conversion. Verify your internet connection and try again. If the problem persists, there might be a server-side issue; please try again later or contact support." /></p>
+                  <p><TranslatedText id="backendConnectionSolution" defaultText="Unable to connect to the vectoriser backend for conversion. Verify your internet connection and try again. If the problem persists, there might be a server-side issue; please try again later or contact support." /></p>
                 </li>
               </ul>
             </div>
