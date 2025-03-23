@@ -2,15 +2,10 @@ import { useCallback } from 'react';
 import TranslatedText from './i18n/TranslatedText';
 import GoogleAd from './GoogleAd';
 
-export default function FileList({ files, onSelect, selectedFile, onPreview, onConvert, conversionStatus, compact = false, onDelete }) {
+export default function FileList({ files, onSelect, selectedFile, onConvert, conversionStatus, compact = false, onDelete, onDownload }) {
   const handleSelect = useCallback((file) => {
     onSelect(file);
   }, [onSelect]);
-  
-  const handlePreview = useCallback((e, file, type) => {
-    e.stopPropagation();
-    onPreview(file, type);
-  }, [onPreview]);
   
   const handleDelete = useCallback((e, file) => {
     e.stopPropagation();
@@ -25,6 +20,13 @@ export default function FileList({ files, onSelect, selectedFile, onPreview, onC
       onConvert(file);
     }
   }, [onConvert]);
+  
+  const handleDownload = useCallback((e, file) => {
+    e.stopPropagation();
+    if (onDownload) {
+      onDownload(file);
+    }
+  }, [onDownload]);
   
   return (
     <div className="space-y-4">
@@ -86,20 +88,7 @@ export default function FileList({ files, onSelect, selectedFile, onPreview, onC
                       {/* Action Buttons */}
                       {!compact && (
                         <div className="flex space-x-3">
-                          {/* Preview Button - Always show */}
-                          <button
-                            type="button"
-                            className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            onClick={(e) => handlePreview(e, file, status === 'completed' ? 'svg' : 'original')}
-                          >
-                            <svg className="mr-2 h-4 w-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
-                            <TranslatedText id="preview" defaultText="Preview" />
-                          </button>
-                          
-                          {/* Convert Button - Only show if not completed */}
+                          {/* Convert Button - Only show if not completed or converting */}
                           {status !== 'completed' && status !== 'converting' && (
                             <button
                               type="button"
@@ -113,7 +102,21 @@ export default function FileList({ files, onSelect, selectedFile, onPreview, onC
                             </button>
                           )}
                           
-                          {/* Delete Button */}
+                          {/* Download Button - Only show if completed */}
+                          {status === 'completed' && (
+                            <button
+                              type="button"
+                              className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                              onClick={(e) => handleDownload(e, file)}
+                            >
+                              <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                              </svg>
+                              <TranslatedText id="download" defaultText="Download" />
+                            </button>
+                          )}
+                          
+                          {/* Delete Button - Always available */}
                           <button
                             type="button"
                             className="inline-flex items-center px-3 py-2 border border-red-300 shadow-sm text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
